@@ -1,0 +1,38 @@
+﻿<Window
+    x:Class="RhumbixAPIConnector.Views.ImportedWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RhumbixAPIConnector.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="clr-namespace:RhumbixAPIConnector.Views.UserControls"
+    xmlns:viewModels="clr-namespace:RhumbixAPIConnector.ViewModels"
+    Title="Imported"
+    Width="1500"
+    Height="1000"
+    Icon="/RhumbixAPIConnector;component/assets/rhumbixfavicon.ico"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <viewModels:ImportedVm x:Key="vm" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5*" />
+        </Grid.RowDefinitions>
+        <userControls:ImportedHeaderControls Grid.Row="0" />
+        <Grid Grid.Row="1" DataContext="{StaticResource vm}">
+            <TabControl Grid.ColumnSpan="3">
+                <TabItem Header="TimeKeeping">
+                    <userControls:TimeListControls />
+                </TabItem>
+                <TabItem Header="Shift Extra">
+                    <userControls:ShiftExtraControls />
+                </TabItem>
+                <TabItem Header="Transformed">
+                    <userControls:TransformedControl />
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</Window>

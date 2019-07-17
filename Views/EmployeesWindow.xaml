@@ -1,0 +1,68 @@
+﻿<Window
+    x:Class="RhumbixAPIConnector.Views.EmployeesWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RhumbixAPIConnector.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:RhumbixAPIConnector.ViewModels"
+    Title="EmployeesWindow"
+    Width="800"
+    Height="500"
+    Icon="/RhumbixAPIConnector;component/assets/rhumbixfavicon.ico"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <viewModels:EmployeesVm x:Key="Vm" />
+    </Window.Resources>
+
+    <Grid DataContext="{StaticResource Vm}">
+        <DataGrid
+            AutoGenerateColumns="False"
+            CanUserResizeColumns="True"
+            ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Binding="{Binding FirstName}"
+                    Header="First Name"
+                    IsReadOnly="False" />
+                <DataGridTextColumn
+                    Binding="{Binding LastName}"
+                    Header="Last Name"
+                    IsReadOnly="False" />
+                <DataGridTextColumn
+                    Binding="{Binding Email}"
+                    Header="Email"
+                    IsReadOnly="False" />
+                <DataGridTextColumn
+                    Binding="{Binding CompanySuppliedId}"
+                    Header="Employee Id"
+                    IsReadOnly="False" />
+                <DataGridTextColumn
+                    Binding="{Binding Phone}"
+                    Header="Phone"
+                    IsReadOnly="False" />
+                <DataGridTextColumn
+                    Binding="{Binding Classification}"
+                    Header="Classification"
+                    IsReadOnly="False" />
+                <DataGridTextColumn
+                    Binding="{Binding UserRole}"
+                    Header="User Role"
+                    IsReadOnly="False" />
+                <DataGridTextColumn
+                    Binding="{Binding Trade}"
+                    Header="Trade"
+                    IsReadOnly="False" />
+                <DataGridTextColumn
+                    Binding="{Binding IsActive}"
+                    Header="Is Active"
+                    IsReadOnly="False" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

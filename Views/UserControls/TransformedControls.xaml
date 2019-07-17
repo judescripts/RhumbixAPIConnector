@@ -1,0 +1,95 @@
+﻿<UserControl
+    x:Class="RhumbixAPIConnector.Views.UserControls.TransformedControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RhumbixAPIConnector.Views.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <DataGrid
+        AutoGenerateColumns="False"
+        CanUserResizeColumns="True"
+        ItemsSource="{Binding TimeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <DataGrid.ColumnHeaderStyle>
+            <Style TargetType="{x:Type DataGridColumnHeader}">
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+        </DataGrid.ColumnHeaderStyle>
+        <DataGrid.Columns>
+            <DataGridTextColumn
+                Binding="{Binding Status}"
+                Header="Personnel No."
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding Foreman}"
+                Header="First Name"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding StartTime}"
+                Header="Last Name"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding Employee}"
+                Header="Employee Name"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding WorkShiftKey}"
+                Header="Trade"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding Timezone}"
+                Header="Classification"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding DoubleTimeMinutes}"
+                Header="Date"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding OverTimeMinutes}"
+                Header="Receiving Cost Center"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding JobNumber}"
+                Header="Project Number"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding IsApproved}"
+                Header="Project Name"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding Id}"
+                Header="Receiving WBS ELEMENT"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding EndTime}"
+                Header="WBSE Description"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding StandardTimeMinutes}"
+                Header="Activity Type"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding CostCode}"
+                Header="Attendance / Absence Type"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding CostCode}"
+                Header="Absence"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding CostCode}"
+                Header="Company Code"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding CostCode}"
+                Header="Hours"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding CostCode}"
+                Header="Approval Status"
+                IsReadOnly="False" />
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>
