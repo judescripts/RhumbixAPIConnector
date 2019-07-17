@@ -1,6 +1,6 @@
 ![RhumbixLogo](<./assets/rhumbixfavicon.png>)
 # RhumbixAPIConnector
->C# Macro on WPF .NET Framework 4.7.2
+>C# WPF MVVM .NET Framework 4.7.2
 >Sqlite-Pcl
 >Rhumbix API Utility App for payroll macros and ERP integrations
 >>
