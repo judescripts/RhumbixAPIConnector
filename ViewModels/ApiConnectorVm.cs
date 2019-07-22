@@ -19,18 +19,17 @@ namespace RhumbixAPIConnector.ViewModels
         public QueryCommand QueryCommand { get; set; }
         public ShowImportedViewCommand ShowImportedViewCommand { get; set; }
         public ShowEmployeesViewCommand ShowEmployeesViewCommand { get; set; }
+        public ShowApiKeyViewCommand ShowApiKeyViewCommand { get; set; }
+        public ShowStatusViewCommand ShowStatusViewCommand { get; set; }
         public ApiConnectorVm()
         {
             Queries = new Queries();
             QueryCommand = new QueryCommand(this);
             ShowImportedViewCommand = new ShowImportedViewCommand(this);
             ShowEmployeesViewCommand = new ShowEmployeesViewCommand(this);
+            ShowApiKeyViewCommand = new ShowApiKeyViewCommand(this);
+            ShowStatusViewCommand = new ShowStatusViewCommand(this);
         }
-
-        /* TODO: Implement helper methods
-         1. Create id arrays for history endpoint calls
-         2. Async multi task stack for retrieving all calls at once 
-        */
 
         /// <summary>
         /// Multi task queues for calling Rhumbix Api
@@ -49,7 +48,7 @@ namespace RhumbixAPIConnector.ViewModels
             await RunQueryAsync(queries, "Absences");
             await RunQueryAsync(queries, "Timekeeping History");
             await RunQueryAsync(queries, "Shift Extra History");
-            await RunQueryAsync(queries, "Absence History");
+            await RunQueryAsync(queries, "Absences History");
 
             MessageBox.Show("Import complete! Please review status menu for detailed results", "Rhumbix API Connector", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -119,8 +118,6 @@ namespace RhumbixAPIConnector.ViewModels
             var timeHistoryList = new List<TimekeepingHistory>();
             var shiftHistoryList = new List<ShiftExtraHistory>();
             var absencesHistoryList = new List<AbsencesHistory>();
-
-            // TODO: Implement helper method to retrieve all necessary ids for history query call
             var ids = string.Empty;
 
             switch (selection)
@@ -253,20 +250,26 @@ namespace RhumbixAPIConnector.ViewModels
             }
         }
 
-        // Open Imported window
         public void ShowImportedView()
         {
             var importedWin = new ImportedWindow();
             importedWin.Show();
         }
-
-        // Open Employees window
         public void ShowEmployeesView()
         {
             var employeesWin = new EmployeesWindow();
             employeesWin.Show();
         }
+        public void ShowApiKeyView()
+        {
+            var apiKeyWin = new ApiKeysWindow();
+            apiKeyWin.Show();
+        }
+        public void ShowStatusView()
+        {
+            var statusWin = new StatusWindow();
+            statusWin.Show();
+        }
 
-        // TODO: Implement status window commands
     }
 }

@@ -80,6 +80,7 @@ namespace RhumbixAPIConnector.ViewModels.Apis
                     url = BaseUrl + query;
                     var costCodes = await GetQueries(url);
                     return (T)Convert.ChangeType(costCodes, typeof(T));
+
                 case QueryType.Absences:
                     type = "absences";
                     queryParams = $"&start_date={startDate}&end_date={endDate}";
@@ -109,7 +110,6 @@ namespace RhumbixAPIConnector.ViewModels.Apis
                     var absencesHistory = await GetQueries(url);
                     return (T)Convert.ChangeType(absencesHistory, typeof(T));
             }
-
             return (T)Convert.ChangeType(null, typeof(T));
         }
 

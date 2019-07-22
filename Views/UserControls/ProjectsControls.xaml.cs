@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace RhumbixAPIConnector.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for TimeListControls.xaml
+    /// Interaction logic for ProjectsControls.xaml
     /// </summary>
-    public partial class TimeListControls : UserControl
+    public partial class ProjectsControls : UserControl
     {
-        public TimeListControls()
+        public ProjectsControls()
         {
             InitializeComponent();
         }

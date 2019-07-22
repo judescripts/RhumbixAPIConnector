@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Windows.Controls;
 
 namespace RhumbixAPIConnector.Models
 {
@@ -24,17 +23,6 @@ namespace RhumbixAPIConnector.Models
             {
                 _endDate = value;
                 OnPropertyChanged("EndDate");
-            }
-        }
-
-        private ComboBoxItem _queryType;
-        public ComboBoxItem QueryType
-        {
-            get => _queryType;
-            set
-            {
-                _queryType = value;
-                OnPropertyChanged("QueryType");
             }
         }
 

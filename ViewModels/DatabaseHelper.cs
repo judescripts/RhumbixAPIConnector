@@ -9,22 +9,50 @@ namespace RhumbixAPIConnector.ViewModels
 {
     public class DatabaseHelper
     {
-        public static readonly string DbFile = Path.Combine(Environment.CurrentDirectory, "TURNER_LOCALDB.db3");
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        public static readonly string DbFile = Path.Combine(Environment.CurrentDirectory, "TURNER_LOCALDB.db3");
         public static async Task<int> InsertManyAsync<T>(List<T> lists, bool dropTable)
         {
             return await Task.Run((() =>
              {
-                 using (var conn = new SQLiteConnection(DbFile))
+                 try
                  {
-                     if (dropTable)
+                     Logger.Info("DbHelper InsertManyAsync Method");
+                     using (var conn = new SQLiteConnection(DbFile))
                      {
-                         conn.DropTable<T>();
+                         if (dropTable)
+                         {
+                             conn.DropTable<T>();
+                         }
+                         conn.CreateTable<T>();
+                         return conn.InsertAll(lists); // Return number of rows affected
                      }
-                     conn.CreateTable<T>();
-                     return conn.InsertAll(lists); // Return number of rows affected
+                 }
+                 catch (Exception ex)
+                 {
+
+                     Logger.Error(ex, "Exception occured while persisting data to the database");
+                     return 0;
                  }
              }));
+        }
+
+        public static List<T> GetList<T>() where T : new()
+        {
+            try
+            {
+                Logger.Info("DbHelper GetList Method");
+                using (var conn = new SQLiteConnection(DatabaseHelper.DbFile))
+                {
+                    return conn.Table<T>().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Exception occured while retrieving data from the database");
+                return null;
+            }
         }
 
         public static bool Insert<T>(T item)

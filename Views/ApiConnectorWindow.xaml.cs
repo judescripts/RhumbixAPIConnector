@@ -14,6 +14,7 @@ namespace RhumbixAPIConnector.Views
         {
             InitializeComponent();
             //TestMethod();
+            //TestMethodAsync();
         }
 
         public void TestMethod()
@@ -22,7 +23,7 @@ namespace RhumbixAPIConnector.Views
             Debug.WriteLine(result);
         }
 
-        public async void TestMethodsAsync()
+        public async void TestMethodAsync()
         {
 
 

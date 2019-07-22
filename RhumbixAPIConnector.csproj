@@ -106,9 +106,13 @@
     <Compile Include="ViewModels\ApiKeysVm.cs" />
     <Compile Include="ViewModels\ApiConnectorVm.cs" />
     <Compile Include="ViewModels\Apis\RhumbixApi.cs" />
+    <Compile Include="ViewModels\Commands\ExportCsvCommand.cs" />
     <Compile Include="ViewModels\Commands\QueryCommand.cs" />
+    <Compile Include="ViewModels\Commands\ShowApiKeyViewCommand.cs" />
     <Compile Include="ViewModels\Commands\ShowEmployeesViewCommand.cs" />
     <Compile Include="ViewModels\Commands\ShowImportedViewCommand.cs" />
+    <Compile Include="ViewModels\Commands\ShowStatusViewCommand.cs" />
+    <Compile Include="ViewModels\Commands\TransformCommand.cs" />
     <Compile Include="ViewModels\DatabaseHelper.cs" />
     <Compile Include="ViewModels\EmployeesVm.cs" />
     <Compile Include="ViewModels\FileSystemsHelpers.cs" />
@@ -138,11 +142,14 @@
     <Compile Include="Views\UserControls\ImportedHeaderControls.xaml.cs">
       <DependentUpon>ImportedHeaderControls.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\ProjectsControls.xaml.cs">
+      <DependentUpon>ProjectsControls.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\ShiftExtraControls.xaml.cs">
       <DependentUpon>ShiftExtraControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\TimeListControls.xaml.cs">
-      <DependentUpon>TimeListControls.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\TimekeepingControls.xaml.cs">
+      <DependentUpon>TimekeepingControls.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\TransformedControls.xaml.cs">
       <DependentUpon>TransformedControls.xaml</DependentUpon>
@@ -214,11 +221,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\ProjectsControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserControls\ShiftExtraControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\TimeListControls.xaml">
+    <Page Include="Views\UserControls\TimekeepingControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

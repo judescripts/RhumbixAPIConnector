@@ -1,12 +1,51 @@
-﻿<UserControl x:Class="RhumbixAPIConnector.Views.UserControls.CostCodesControls"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:RhumbixAPIConnector.Views.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+﻿<UserControl
+    x:Class="RhumbixAPIConnector.Views.UserControls.CostCodesControls"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RhumbixAPIConnector.Views.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <DataGrid
+        AutoGenerateColumns="False"
+        CanUserResizeColumns="True"
+        ItemsSource="{Binding CostCodesList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <DataGrid.ColumnHeaderStyle>
+            <Style TargetType="{x:Type DataGridColumnHeader}">
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+        </DataGrid.ColumnHeaderStyle>
+        <DataGrid.Columns>
+            <DataGridTextColumn
+                Binding="{Binding Code}"
+                Header="Code"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding Description}"
+                Header="Description"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding Units}"
+                Header="Units"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding ErpUnits}"
+                Header="ERP Units"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding IsActive}"
+                Header="Is Active"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding Job Number}"
+                Header="Job Number"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding Group}"
+                Header="Group"
+                IsReadOnly="False" />
+        </DataGrid.Columns>
+    </DataGrid>
 </UserControl>

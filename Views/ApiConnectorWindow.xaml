@@ -17,7 +17,7 @@
         <viewModels:ApiConnectorVm x:Key="Vm" />
     </Window.Resources>
 
-    <DockPanel>
+    <DockPanel DataContext="{StaticResource Vm}">
         <Menu
             Margin="10"
             HorizontalAlignment="Center"
@@ -26,8 +26,14 @@
             DockPanel.Dock="Top"
             FontWeight="Bold">
             <MenuItem BorderBrush="Transparent" Header="Main Menu">
-                <MenuItem FontWeight="Normal" Header="Api Keys" />
-                <MenuItem FontWeight="Normal" Header="Import Status" />
+                <MenuItem
+                    Command="{Binding ShowApiKeyViewCommand}"
+                    FontWeight="Normal"
+                    Header="Api Keys" />
+                <MenuItem
+                    Command="{Binding ShowStatusViewCommand}"
+                    FontWeight="Normal"
+                    Header="Import Status" />
                 <Separator />
                 <MenuItem FontWeight="SemiBold" Header="Exit" />
             </MenuItem>
@@ -45,7 +51,9 @@
                 <ProgressBar
                     Width="385"
                     Height="10"
-                    HorizontalAlignment="Center" />
+                    HorizontalAlignment="Center"
+                    Background="White"
+                    BorderThickness="0" />
             </StatusBarItem>
         </StatusBar>
         <Grid DataContext="{StaticResource Vm}">
@@ -66,25 +74,6 @@
                             Style="{StaticResource Headers}"
                             Text="End Date" />
                         <DatePicker Text="{Binding Queries.EndDate, Mode=TwoWay}" />
-                        <TextBlock
-                            Margin="0,10,0,0"
-                            HorizontalAlignment="Center"
-                            Style="{StaticResource Headers}"
-                            Text="Run Query" />
-                        <ComboBox SelectedItem="{Binding Queries.QueryType, Mode=TwoWay}">
-                            <ComboBoxItem IsSelected="True">
-                                Timekeeping
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                Shift Extra
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                Employees
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                Projects
-                            </ComboBoxItem>
-                        </ComboBox>
                         <Button
                             Command="{Binding QueryCommand}"
                             CommandParameter="{Binding Queries}"
