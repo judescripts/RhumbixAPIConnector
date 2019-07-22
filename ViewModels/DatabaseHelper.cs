@@ -11,16 +11,31 @@ namespace RhumbixAPIConnector.ViewModels
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static readonly string DbFile = Path.Combine(Environment.CurrentDirectory, "TURNER_LOCALDB.db3");
+        public static readonly string SystemPath =
+            System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+
+        public static readonly string DbFile = SystemPath + @"\Rhumbix\Turner_Local.db3";
+
+        public static void VerifyDirectoryExists()
+        {
+            var systemPath = System.Environment.
+                GetFolderPath(
+                    Environment.SpecialFolder.CommonApplicationData
+                );
+            Directory.CreateDirectory(systemPath + @"\Rhumbix");
+        }
+
         public static async Task<int> InsertManyAsync<T>(List<T> lists, bool dropTable)
         {
             return await Task.Run((() =>
              {
+                 VerifyDirectoryExists();
                  try
                  {
                      Logger.Info("DbHelper InsertManyAsync Method");
                      using (var conn = new SQLiteConnection(DbFile))
                      {
+                         conn.CreateTable<T>();
                          if (dropTable)
                          {
                              conn.DropTable<T>();
@@ -40,6 +55,7 @@ namespace RhumbixAPIConnector.ViewModels
 
         public static List<T> GetList<T>() where T : new()
         {
+            VerifyDirectoryExists();
             try
             {
                 Logger.Info("DbHelper GetList Method");
@@ -57,10 +73,12 @@ namespace RhumbixAPIConnector.ViewModels
 
         public static async Task<int> Insert<T>(T item, bool dropTable)
         {
+            VerifyDirectoryExists();
             return await Task.Run(() =>
             {
                 using (var conn = new SQLiteConnection(DbFile))
                 {
+                    conn.CreateTable<T>();
                     if (dropTable)
                     {
                         conn.DropTable<T>();

@@ -34,5 +34,14 @@ namespace RhumbixAPIConnector.Properties {
                 this["ApiKey"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool test {
+            get {
+                return ((bool)(this["test"]));
+            }
+        }
     }
 }
