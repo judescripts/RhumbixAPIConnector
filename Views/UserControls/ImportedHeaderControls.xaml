@@ -5,10 +5,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:RhumbixAPIConnector.Views.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:RhumbixAPIConnector.ViewModels"
     d:DesignHeight="200"
     d:DesignWidth="500"
     mc:Ignorable="d">
-    <Grid>
+
+    <UserControl.Resources>
+        <viewModels:ImportedVm x:Key="Vm" />
+    </UserControl.Resources>
+
+    <Grid DataContext="{StaticResource Vm}">
         <Grid.Background>
             <ImageBrush ImageSource="../../assets/artiom-vallat-hboAxY6LuQw-unsplash.jpg" Stretch="UniformToFill" />
         </Grid.Background>
@@ -35,8 +41,7 @@
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button
                     Margin="10"
-                    Command="{Binding QueryCommand}"
-                    CommandParameter="{Binding Queries}"
+                    Command="{Binding TransformCommand}"
                     Cursor="Hand"
                     Style="{StaticResource CommandButton}">
                     <StackPanel VerticalAlignment="Center">
@@ -52,8 +57,6 @@
                 </Button>
                 <Button
                     Margin="10"
-                    Command="{Binding QueryCommand}"
-                    CommandParameter="{Binding Queries}"
                     Cursor="Hand"
                     Style="{StaticResource CommandButton}">
                     <StackPanel VerticalAlignment="Center">
@@ -69,8 +72,6 @@
                 </Button>
                 <Button
                     Margin="10"
-                    Command="{Binding QueryCommand}"
-                    CommandParameter="{Binding Queries}"
                     Cursor="Hand"
                     Style="{StaticResource CommandButton}">
                     <StackPanel VerticalAlignment="Center">

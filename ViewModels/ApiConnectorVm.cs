@@ -40,6 +40,9 @@ namespace RhumbixAPIConnector.ViewModels
             FileSystemsHelpers.ClearAllTexts();
             FileSystemsHelpers.WriteToFile($"Last imported time: {DateTime.Now}");
 
+            // If no date is selected, abort method call
+            if (queries.StartDate == "" || queries.EndDate == "") return;
+
             await RunQueryAsync(queries, "Timekeeping");
             await RunQueryAsync(queries, "Shift Extra");
             await RunQueryAsync(queries, "Employees");

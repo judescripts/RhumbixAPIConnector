@@ -19,68 +19,36 @@
         </DataGrid.ColumnHeaderStyle>
         <DataGrid.Columns>
             <DataGridTextColumn
-                Binding="{Binding JobNumber}"
-                Header="Job Number"
-                IsReadOnly="False" />
-            <DataGridTextColumn
-                Binding="{Binding Id}"
-                Header="Id"
-                IsReadOnly="False" />
-            <DataGridTextColumn
-                Binding="{Binding WorkShiftKey}"
-                Header="Work Shift Key"
-                IsReadOnly="False" />
-            <DataGridTextColumn
-                Binding="{Binding EndTime}"
-                Header="End Time"
-                IsReadOnly="False" />
-            <DataGridTextColumn
-                Binding="{Binding StartTime}"
-                Header="Start Time"
-                IsReadOnly="False" />
-            <DataGridTextColumn
-                Binding="{Binding ShiftDate}"
-                Header="Shift Date"
-                IsReadOnly="False" />
-            <DataGridTextColumn
-                Binding="{Binding CostCode}"
-                Header="Cost Code"
-                IsReadOnly="False" />
-            <DataGridTextColumn
-                Binding="{Binding Employee}"
-                Header="Employee"
-                IsReadOnly="False" />
-            <DataGridTextColumn
-                Binding="{Binding Foreman}"
-                Header="Foreman"
-                IsReadOnly="False" />
-            <DataGridTextColumn
                 Binding="{Binding Status}"
                 Header="Status"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding IsApproved}"
-                Header="Is Approved"
+                Binding="{Binding Description}"
+                Header="Description"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding OverTimeMinutes}"
-                Header="Over Time Minutes"
+                Binding="{Binding Address}"
+                Header="Address"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding DoubleTimeMinutes}"
-                Header="Double Time Minutes"
+                Binding="{Binding JobNumber}"
+                Header="Job Number"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding StandardTimeMinutes}"
-                Header="Standard Time Minutes"
+                Binding="{Binding Name}"
+                Header="Name"
                 IsReadOnly="False" />
             <DataGridTextColumn
                 Binding="{Binding Timezone}"
                 Header="Timezone"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding LastUpdated}"
-                Header="Last Updated"
+                Binding="{Binding RequireSignature}"
+                Header="Require Signature"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding Employee}"
+                Header="Employee"
                 IsReadOnly="False" />
         </DataGrid.Columns>
     </DataGrid>

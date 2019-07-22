@@ -74,6 +74,10 @@
                 Binding="{Binding CostCode}"
                 Header="Cost Code"
                 IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding ShiftDate}"
+                Header="Shift Date"
+                IsReadOnly="False" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

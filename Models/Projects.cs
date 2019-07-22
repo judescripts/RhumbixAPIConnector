@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using SQLite;
 using System.Globalization;
 
 namespace RhumbixAPIConnector.Models
@@ -10,55 +9,26 @@ namespace RhumbixAPIConnector.Models
     /// </summary>
     public partial class Project
     {
-        [PrimaryKey, Indexed]
-        [JsonProperty("job_number")]
-        public string JobNumber { get; set; }
-
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
-        [Ignore]
-        [JsonProperty("work_shift_key")]
-        public string WorkShiftKey { get; set; }
-
-        [JsonProperty("end_time")]
-        public string EndTime { get; set; }
-
-        [JsonProperty("start_time")]
-        public string StartTime { get; set; }
-
-        [JsonProperty("shift_date")]
-        public string ShiftDate { get; set; }
-
-        [JsonProperty("cost_code")]
-        public string CostCode { get; set; }
-
-        [JsonProperty("employee")]
-        public string Employee { get; set; }
-
-        [JsonProperty("foreman")]
-        public string Foreman { get; set; }
-
         [JsonProperty("status")]
         public string Status { get; set; }
 
-        [JsonProperty("is_approved")]
-        public bool IsApproved { get; set; }
+        [JsonProperty("description")]
+        public string Description { get; set; }
 
-        [JsonProperty("over_time_minutes")]
-        public long OverTimeMinutes { get; set; }
+        [JsonProperty("address")]
+        public string Address { get; set; }
 
-        [JsonProperty("double_time_minutes")]
-        public long DoubleTimeMinutes { get; set; }
+        [JsonProperty("job_number")]
+        public string JobNumber { get; set; }
 
-        [JsonProperty("standard_time_minutes")]
-        public long StandardTimeMinutes { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
         [JsonProperty("timezone")]
         public string Timezone { get; set; }
 
-        [JsonProperty("last_updated")]
-        public string LastUpdated { get; set; }
+        [JsonProperty("require_signature")]
+        public string RequireSignature { get; set; }
     }
 
     public partial class Project
@@ -68,21 +38,13 @@ namespace RhumbixAPIConnector.Models
         {
             var p = new Project()
             {
-                WorkShiftKey = r.WorkShiftKey,
-                EndTime = r.EndTime,
-                StartTime = r.StartTime,
-                CostCode = r.CostCode,
-                JobNumber = r.JobNumber,
-                Employee = r.Employee,
-                Foreman = r.Foreman,
                 Status = r.Status,
-                IsApproved = r.IsApproved,
-                OverTimeMinutes = r.OverTimeMinutes,
-                DoubleTimeMinutes = r.DoubleTimeMinutes,
-                StandardTimeMinutes = r.StandardTimeMinutes,
+                Description = r.Description,
+                Address = r.Address,
+                JobNumber = r.JobNumber,
+                Name = r.Name,
                 Timezone = r.Timezone,
-                Id = r.Id,
-                LastUpdated = r.LastUpdated
+                RequireSignature = r.RequireSignature
             };
             return p;
         }

@@ -106,6 +106,17 @@ namespace RhumbixAPIConnector.Models
 
         [JsonProperty("group")] public string Group { get; set; }
 
+        // Project specific meta data
+        [JsonProperty("address")]
+        public string Address { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("require_signature")]
+        public string RequireSignature { get; set; }
+
+
         // History specific meta data
         [JsonProperty("history_date")]
         public string HistoryDate { get; set; }

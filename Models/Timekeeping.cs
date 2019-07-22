@@ -70,6 +70,7 @@ namespace RhumbixAPIConnector.Models
             var t = new Timekeeping
             {
                 WorkShiftKey = r.WorkShiftKey,
+                ShiftDate = r.ShiftDate,
                 EndTime = r.EndTime,
                 StartTime = r.StartTime,
                 CostCode = r.CostCode,

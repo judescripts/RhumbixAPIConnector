@@ -11,7 +11,7 @@
     <DataGrid
         AutoGenerateColumns="False"
         CanUserResizeColumns="True"
-        ItemsSource="{Binding TimeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        ItemsSource="{Binding TransformedList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         <DataGrid.ColumnHeaderStyle>
             <Style TargetType="{x:Type DataGridColumnHeader}">
                 <Setter Property="FontWeight" Value="Bold" />
@@ -19,76 +19,97 @@
         </DataGrid.ColumnHeaderStyle>
         <DataGrid.Columns>
             <DataGridTextColumn
-                Binding="{Binding Status}"
+                Binding="{Binding PersonnelNo}"
                 Header="Personnel No."
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding Foreman}"
+                Binding="{Binding FirstName}"
                 Header="First Name"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding StartTime}"
+                Binding="{Binding LastName}"
                 Header="Last Name"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding Employee}"
+                Binding="{Binding EmployeeName}"
                 Header="Employee Name"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding WorkShiftKey}"
+                Binding="{Binding Trade}"
                 Header="Trade"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding Timezone}"
+                Binding="{Binding Classification}"
                 Header="Classification"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding DoubleTimeMinutes}"
+                Binding="{Binding Date}"
                 Header="Date"
                 IsReadOnly="False" />
-            <DataGridTextColumn
-                Binding="{Binding OverTimeMinutes}"
-                Header="Receiving Cost Center"
-                IsReadOnly="False" />
+            <DataGridTextColumn Header="Receiving Cost Center" IsReadOnly="False" />
             <DataGridTextColumn
                 Binding="{Binding JobNumber}"
                 Header="Project Number"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding IsApproved}"
+                Binding="{Binding ProjectName}"
                 Header="Project Name"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding Id}"
+                Binding="{Binding CostCode}"
                 Header="Receiving WBS ELEMENT"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding EndTime}"
+                Binding="{Binding CostCodeDescription}"
                 Header="WBSE Description"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding StandardTimeMinutes}"
+                Binding="{Binding ActivityType}"
                 Header="Activity Type"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding CostCode}"
-                Header="Attendance / Absence Type"
+                Binding="{Binding AttendanceType}"
+                Header="Attendance Type"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding CostCode}"
-                Header="Absence"
+                Binding="{Binding AbsenceType}"
+                Header="Absence Type"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding CostCode}"
+                Binding="{Binding AbsenceDescription}"
+                Header="Absence Description"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding CompanyCode}"
                 Header="Company Code"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding CostCode}"
+                Binding="{Binding Hours}"
                 Header="Hours"
                 IsReadOnly="False" />
             <DataGridTextColumn
-                Binding="{Binding CostCode}"
+                Binding="{Binding ApprovalStatus}"
                 Header="Approval Status"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding ApproverFirstName}"
+                Header="Approver First Name"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding ApproverLastName}"
+                Header="Approver Last Name"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding ApproverName}"
+                Header="Approval Status"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding DateApproved}"
+                Header="Date Approved"
+                IsReadOnly="False" />
+            <DataGridTextColumn
+                Binding="{Binding TimeApproved}"
+                Header="Time Approved"
                 IsReadOnly="False" />
         </DataGrid.Columns>
     </DataGrid>
