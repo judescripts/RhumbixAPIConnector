@@ -1,8 +1,10 @@
-﻿using RhumbixAPIConnector.Models;
+﻿using CsvHelper;
+using RhumbixAPIConnector.Models;
 using RhumbixAPIConnector.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 
@@ -25,6 +27,7 @@ namespace RhumbixAPIConnector.ViewModels
         public ObservableCollection<AbsencesHistory> AbsencesHistoryList { get; set; }
         public ObservableCollection<Transform> TransformedList { get; set; }
         public TransformCommand TransformCommand { get; set; }
+        public ExportCsvCommand ExportCsvCommand { get; set; }
         public ImportedVm()
         {
             Timekeeping = new Timekeeping();
@@ -42,6 +45,7 @@ namespace RhumbixAPIConnector.ViewModels
             TransformedList = new ObservableCollection<Transform>();
 
             TransformCommand = new TransformCommand(this);
+            ExportCsvCommand = new ExportCsvCommand(this);
 
             GetTimeKeepingList();
             GetShiftExtraList();
@@ -58,7 +62,7 @@ namespace RhumbixAPIConnector.ViewModels
         /// <summary>
         /// Eager load data from database
         /// </summary>
-        public void GetTimeKeepingList()
+        private void GetTimeKeepingList()
         {
             try
             {
@@ -75,7 +79,7 @@ namespace RhumbixAPIConnector.ViewModels
                 Logger.Error(ex, "Exception occured from getting timekeeping list");
             }
         }
-        public void GetShiftExtraList()
+        private void GetShiftExtraList()
         {
             try
             {
@@ -92,7 +96,7 @@ namespace RhumbixAPIConnector.ViewModels
                 Logger.Error(ex, "Exception occured from getting shift extra list");
             }
         }
-        public void GetAbsencesList()
+        private void GetAbsencesList()
         {
             try
             {
@@ -109,7 +113,7 @@ namespace RhumbixAPIConnector.ViewModels
                 Logger.Error(ex, "Exception occured from getting absences list");
             }
         }
-        public void GetCostCodesList()
+        private void GetCostCodesList()
         {
             try
             {
@@ -126,7 +130,7 @@ namespace RhumbixAPIConnector.ViewModels
                 Logger.Error(ex, "Exception occured from getting cost codes list");
             }
         }
-        public void GetProjectsList()
+        private void GetProjectsList()
         {
             try
             {
@@ -143,7 +147,7 @@ namespace RhumbixAPIConnector.ViewModels
                 Logger.Error(ex, "Exception occured from getting projects list");
             }
         }
-        public void GetEmployeesList()
+        private void GetEmployeesList()
         {
             try
             {
@@ -160,7 +164,7 @@ namespace RhumbixAPIConnector.ViewModels
                 Logger.Error(ex, "Exception occured from getting employees list");
             }
         }
-        public void GetTimeHistoryList()
+        private void GetTimeHistoryList()
         {
             try
             {
@@ -177,7 +181,7 @@ namespace RhumbixAPIConnector.ViewModels
                 Logger.Error(ex, "Exception occured from getting timekeeping history list");
             }
         }
-        public void GetShiftHistoryList()
+        private void GetShiftHistoryList()
         {
             try
             {
@@ -194,7 +198,7 @@ namespace RhumbixAPIConnector.ViewModels
                 Logger.Error(ex, "Exception occured from getting projects list");
             }
         }
-        public void GetAbsencesHistoryList()
+        private void GetAbsencesHistoryList()
         {
             try
             {
@@ -211,7 +215,7 @@ namespace RhumbixAPIConnector.ViewModels
                 Logger.Error(ex, "Exception occured from getting projects list");
             }
         }
-        public void GetTransformedList()
+        private void GetTransformedList()
         {
             try
             {
@@ -545,6 +549,19 @@ namespace RhumbixAPIConnector.ViewModels
             FileSystemsHelpers.WriteToFile($"Number of transformed records: {numOfRows}");
             MessageBox.Show("Data transformation complete!", "Rhumbix Macro", MessageBoxButton.OK,
                 MessageBoxImage.Information);
+        }
+        public void ExportToCsv()
+        {
+            var filePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}/rhumbix_transform.csv";
+
+            var records = DatabaseHelper.GetList<Transform>();
+
+            using (var writer = new StreamWriter(filePath))
+            using (var csv = new CsvWriter(writer))
+            {
+                csv.WriteRecords(records);
+                MessageBox.Show("Export complete!", "Rhumbix Export", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

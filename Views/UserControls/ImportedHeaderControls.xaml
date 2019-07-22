@@ -12,6 +12,8 @@
 
     <UserControl.Resources>
         <viewModels:ImportedVm x:Key="Vm" />
+        <viewModels:ApiConnectorVm x:Key="Ac" />
+        <viewModels:ImportedVm x:Key="Iv" />
     </UserControl.Resources>
 
     <Grid DataContext="{StaticResource Vm}">
@@ -38,7 +40,10 @@
                         Text="Status" />
                 </StackPanel>
             </Grid>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <StackPanel
+                HorizontalAlignment="Center"
+                DataContext="{StaticResource Ac}"
+                Orientation="Horizontal">
                 <Button
                     Margin="10"
                     Command="{Binding TransformCommand}"
@@ -57,7 +62,9 @@
                 </Button>
                 <Button
                     Margin="10"
+                    Command="{Binding ExportCsvCommand}"
                     Cursor="Hand"
+                    DataContext="{StaticResource Iv}"
                     Style="{StaticResource CommandButton}">
                     <StackPanel VerticalAlignment="Center">
                         <Image MaxHeight="75" Margin="20">
@@ -72,6 +79,7 @@
                 </Button>
                 <Button
                     Margin="10"
+                    Command="{Binding ShowStatusViewCommand}"
                     Cursor="Hand"
                     Style="{StaticResource CommandButton}">
                     <StackPanel VerticalAlignment="Center">
