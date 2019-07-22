@@ -1,19 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using SQLite;
+using System;
 using System.Globalization;
 
 namespace RhumbixAPIConnector.Models
 {
-    /// <summary>
-    /// Rhumbix API timekeeping object model and explicit casts
-    /// </summary>
-    public partial class Timekeeping
+    public partial class TimekeepingHistory
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
-        [Indexed]
         [JsonProperty("work_shift_key")]
         public string WorkShiftKey { get; set; }
 
@@ -32,11 +25,9 @@ namespace RhumbixAPIConnector.Models
         [JsonProperty("job_number")]
         public string JobNumber { get; set; }
 
-        [Indexed]
         [JsonProperty("employee")]
         public string Employee { get; set; }
 
-        [Indexed]
         [JsonProperty("foreman")]
         public string Foreman { get; set; }
 
@@ -58,20 +49,33 @@ namespace RhumbixAPIConnector.Models
         [JsonProperty("timezone")]
         public string Timezone { get; set; }
 
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
         [JsonProperty("last_updated")]
         public string LastUpdated { get; set; }
+
+        [JsonProperty("history_date")]
+        public string HistoryDate { get; set; }
+
+        [JsonProperty("modified_by")]
+        public string ModifiedBy { get; set; }
+
+        [JsonProperty("history_type")]
+        public string HistoryType { get; set; }
     }
 
-    public partial class Timekeeping
+    public partial class TimekeepingHistory
     {
         // Explicit cast operator from QueryResult type to Timekeeping type
-        public static explicit operator Timekeeping(Result r)
+        public static explicit operator TimekeepingHistory(Result r)
         {
-            var t = new Timekeeping
+            var s = new TimekeepingHistory()
             {
                 WorkShiftKey = r.WorkShiftKey,
                 EndTime = r.EndTime,
                 StartTime = r.StartTime,
+                ShiftDate = r.ShiftDate,
                 CostCode = r.CostCode,
                 JobNumber = r.JobNumber,
                 Employee = r.Employee,
@@ -83,19 +87,24 @@ namespace RhumbixAPIConnector.Models
                 StandardTimeMinutes = r.StandardTimeMinutes,
                 Timezone = r.Timezone,
                 Id = r.Id,
-                LastUpdated = r.LastUpdated
+                LastUpdated = r.LastUpdated,
+                HistoryDate = r.HistoryDate,
+                ModifiedBy = r.ModifiedBy,
+                HistoryType = r.HistoryType
             };
-            return t;
+            return s;
         }
+
         // Json deserializer
-        public static Timekeeping FromJson(string json) => JsonConvert.DeserializeObject<Timekeeping>(json, TimeKeepingConverter.Settings);
+        public static TimekeepingHistory FromJson(string json) => JsonConvert.DeserializeObject<TimekeepingHistory>(json, RhumbixAPIConnector.Models.TimeKeepingHistoryConverter.Settings);
     }
 
-    public static class TimeKeepingSerialize
+    public static class TimeKeepingHistorySerialize
     {
-        public static string ToJson(this Timekeeping self) => JsonConvert.SerializeObject(self, TimeKeepingConverter.Settings);
+        public static string ToJson(this TimekeepingHistory self) => JsonConvert.SerializeObject(self, RhumbixAPIConnector.Models.TimeKeepingHistoryConverter.Settings);
     }
-    internal static class TimeKeepingConverter
+
+    internal static class TimeKeepingHistoryConverter
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
@@ -106,5 +115,36 @@ namespace RhumbixAPIConnector.Models
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
         };
+    }
+
+    internal class TimeKeepingHistoryParseStringConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(long) || t == typeof(long?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            long l;
+            if (Int64.TryParse(value, out l))
+            {
+                return l;
+            }
+            throw new Exception("Cannot unmarshal type long");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (long)untypedValue;
+            serializer.Serialize(writer, value.ToString());
+            return;
+        }
+
+        public static readonly ParseStringConverter Singleton = new ParseStringConverter();
     }
 }

@@ -5,11 +5,14 @@ using System.Globalization;
 
 namespace RhumbixAPIConnector.Models
 {
+    /// <summary>
+    /// Rhumbix API shift extra object model and explicit casts
+    /// </summary>
     public partial class ShiftExtra
     {
         [PrimaryKey, Indexed]
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         [Indexed]
         [JsonProperty("work_shift_key")]
@@ -52,7 +55,6 @@ namespace RhumbixAPIConnector.Models
         [Ignore]
         [JsonProperty("entry_store")]
         public EntrySelection EntryStore { get; set; }
-
         public string AAType { get; set; }
 
     }
@@ -81,7 +83,7 @@ namespace RhumbixAPIConnector.Models
             };
             return s;
         }
-
+        // Json deserializer
         public static ShiftExtra FromJson(string json) => JsonConvert.DeserializeObject<ShiftExtra>(json, ShiftExtraConverter.Settings);
     }
 

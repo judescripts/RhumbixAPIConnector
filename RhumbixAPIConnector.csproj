@@ -43,6 +43,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.6.6\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="SQLite-net, Version=1.5.231.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\sqlite-net-pcl.1.5.231\lib\netstandard1.1\SQLite-net.dll</HintPath>
     </Reference>
@@ -59,7 +62,12 @@
       <HintPath>..\packages\SQLitePCLRaw.provider.e_sqlite3.net45.1.1.11\lib\net45\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -82,17 +90,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Absences.cs" />
+    <Compile Include="Models\AbsencesHistory.cs" />
+    <Compile Include="Models\CostCodes.cs" />
     <Compile Include="Models\Employees.cs" />
     <Compile Include="Models\EntrySelection.cs" />
-    <Compile Include="Models\OtCalculator.cs" />
     <Compile Include="Models\Projects.cs" />
     <Compile Include="Models\Queries.cs" />
     <Compile Include="Models\QueryResults.cs" />
     <Compile Include="Models\ShiftExtra.cs" />
+    <Compile Include="Models\ShiftExtraHistory.cs" />
+    <Compile Include="Models\TimekeepingHistory.cs" />
     <Compile Include="Models\Timekeeping.cs" />
-    <Compile Include="Models\Turner.cs" />
+    <Compile Include="Models\Transform.cs" />
     <Compile Include="ViewModels\ApiKeysVm.cs" />
-    <Compile Include="ViewModels\Commands\ApiConnectorVm.cs" />
+    <Compile Include="ViewModels\ApiConnectorVm.cs" />
     <Compile Include="ViewModels\Apis\RhumbixApi.cs" />
     <Compile Include="ViewModels\Commands\QueryCommand.cs" />
     <Compile Include="ViewModels\Commands\ShowEmployeesViewCommand.cs" />
@@ -101,6 +113,7 @@
     <Compile Include="ViewModels\EmployeesVm.cs" />
     <Compile Include="ViewModels\FileSystemsHelpers.cs" />
     <Compile Include="ViewModels\ImportedVm.cs" />
+    <Compile Include="ViewModels\StatusVm.cs" />
     <Compile Include="Views\ApiConnectorWindow.xaml.cs">
       <DependentUpon>ApiConnectorWindow.xaml</DependentUpon>
     </Compile>
@@ -112,6 +125,15 @@
     </Compile>
     <Compile Include="Views\ImportedWindow.xaml.cs">
       <DependentUpon>ImportedWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatusWindow.xaml.cs">
+      <DependentUpon>StatusWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\AbsencesControls.xaml.cs">
+      <DependentUpon>AbsencesControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\CostCodesControls.xaml.cs">
+      <DependentUpon>CostCodesControls.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\ImportedHeaderControls.xaml.cs">
       <DependentUpon>ImportedHeaderControls.xaml</DependentUpon>
@@ -144,6 +166,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -167,6 +195,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ImportedWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatusWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\AbsencesControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\CostCodesControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

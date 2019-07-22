@@ -1,10 +1,13 @@
-﻿using System.Globalization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SQLite;
+using System.Globalization;
 
 namespace RhumbixAPIConnector.Models
 {
+    /// <summary>
+    /// Rhumbix API projects model and explicit casts
+    /// </summary>
     public partial class Project
     {
         [PrimaryKey, Indexed]
@@ -12,7 +15,7 @@ namespace RhumbixAPIConnector.Models
         public string JobNumber { get; set; }
 
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         [Ignore]
         [JsonProperty("work_shift_key")]

@@ -1,6 +1,9 @@
 ﻿namespace RhumbixAPIConnector.Models
 {
-    public class Turner
+    /// <summary>
+    /// Client specific transform model
+    /// </summary>
+    public class Transform
     {
         public string PersonnelNo { get; set; }
         public string FirstName { get; set; }

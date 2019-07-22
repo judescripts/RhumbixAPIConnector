@@ -1,4 +1,6 @@
 ﻿using Microsoft.Win32;
+using System;
+using System.IO;
 
 namespace RhumbixAPIConnector.ViewModels
 {
@@ -13,6 +15,36 @@ namespace RhumbixAPIConnector.ViewModels
                 RestoreDirectory = true
             };
             return openFileDialog.ShowDialog() == true ? openFileDialog.FileName : null;
+        }
+
+        public static void WriteToFile(string texts)
+        {
+            var systemPath = System.Environment.
+                GetFolderPath(
+                    Environment.SpecialFolder.CommonApplicationData
+                );
+            Directory.CreateDirectory(systemPath + @"\Rhumbix");
+            var completePath = systemPath + @"\Rhumbix\status.txt";
+
+            using (var sw = File.AppendText(completePath))
+            {
+                sw.WriteLine($"\n{texts}");
+            }
+        }
+
+        public static void ClearAllTexts()
+        {
+            var systemPath = System.Environment.
+                GetFolderPath(
+                    Environment.SpecialFolder.CommonApplicationData
+                );
+            Directory.CreateDirectory(systemPath + @"\Rhumbix");
+            var completePath = systemPath + @"\Rhumbix\status.txt";
+
+            using (var sw = File.CreateText(completePath))
+            {
+                sw.Write(string.Empty);
+            }
         }
     }
 }

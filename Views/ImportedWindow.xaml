@@ -29,6 +29,13 @@
                 <TabItem Header="Shift Extra">
                     <userControls:ShiftExtraControls />
                 </TabItem>
+                <!--  TODO: Implement absences  -->
+                <TabItem Header="Absences">
+                    <userControls:AbsencesControls />
+                </TabItem>
+                <TabItem Header="Cost Codes">
+                    <userControls:CostCodesControls />
+                </TabItem>
                 <TabItem Header="Transformed">
                     <userControls:TransformedControl />
                 </TabItem>

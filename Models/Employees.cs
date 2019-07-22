@@ -6,6 +6,9 @@ using System.Globalization;
 
 namespace RhumbixAPIConnector.Models
 {
+    /// <summary>
+    /// Rhumbix API employees model and explicit casts
+    /// </summary>
     public partial class Employee
     {
         [JsonProperty("first_name")]

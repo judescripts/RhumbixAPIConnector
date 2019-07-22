@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RhumbixAPIConnector.ViewModels;
+using RhumbixAPIConnector.ViewModels.Apis;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace RhumbixAPIConnector.Views
 {
@@ -22,6 +13,19 @@ namespace RhumbixAPIConnector.Views
         public ApiConnectorWindow()
         {
             InitializeComponent();
+            //TestMethod();
+        }
+
+        public void TestMethod()
+        {
+            var result = ApiConnectorVm.GetIdArrays(RhumbixApi.QueryType.TimekeepingEntries);
+            Debug.WriteLine(result);
+        }
+
+        public async void TestMethodsAsync()
+        {
+
+
         }
     }
 }

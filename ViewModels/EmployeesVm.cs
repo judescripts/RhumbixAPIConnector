@@ -42,7 +42,7 @@ namespace RhumbixAPIConnector.ViewModels
         }
 
         /// <summary>
-        /// Helper method for mass importing employees data
+        /// Helper method for mass importing employees data from csv files
         /// </summary>
         public static async Task ImportValidationCsvAsync()
         {
@@ -53,8 +53,7 @@ namespace RhumbixAPIConnector.ViewModels
             using (engine.BeginReadFile(fileName))
             {
                 validationData.AddRange(engine);
-                var confirm = await DatabaseHelper.InsertManyAsync<Employee>(validationData, true);
-                DatabaseHelper.Confirm(confirm);
+                await DatabaseHelper.InsertManyAsync<Employee>(validationData, true);
             }
         }
 

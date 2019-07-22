@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RhumbixAPIConnector.Models;
+using System;
 using System.Windows.Input;
-using RhumbixAPIConnector.Models;
 
 namespace RhumbixAPIConnector.ViewModels.Commands
 {
@@ -24,7 +20,7 @@ namespace RhumbixAPIConnector.ViewModels.Commands
 
         public void Execute(object parameter)
         {
-            if (parameter is Queries selectedQueries) Vm.RunQueryAsync(selectedQueries);
+            if (parameter is Queries selectedQueries) Vm.RhumbixApiTaskQueues(selectedQueries);
         }
 
         public event EventHandler CanExecuteChanged;

@@ -26,7 +26,9 @@
             DockPanel.Dock="Top"
             FontWeight="Bold">
             <MenuItem BorderBrush="Transparent" Header="Main Menu">
-                <MenuItem FontWeight="SemiBold" Header="Api Keys" />
+                <MenuItem FontWeight="Normal" Header="Api Keys" />
+                <MenuItem FontWeight="Normal" Header="Import Status" />
+                <Separator />
                 <MenuItem FontWeight="SemiBold" Header="Exit" />
             </MenuItem>
             <MenuItem
@@ -40,11 +42,10 @@
         </Menu>
         <StatusBar Background="White" DockPanel.Dock="Bottom">
             <StatusBarItem>
-                <TextBlock
-                    Margin="20,0,0,0"
-                    FontWeight="Bold"
-                    Foreground="Black"
-                    Text="..." />
+                <ProgressBar
+                    Width="385"
+                    Height="10"
+                    HorizontalAlignment="Center" />
             </StatusBarItem>
         </StatusBar>
         <Grid DataContext="{StaticResource Vm}">
@@ -67,8 +68,9 @@
                         <DatePicker Text="{Binding Queries.EndDate, Mode=TwoWay}" />
                         <TextBlock
                             Margin="0,10,0,0"
+                            HorizontalAlignment="Center"
                             Style="{StaticResource Headers}"
-                            Text="Select Query Type" />
+                            Text="Run Query" />
                         <ComboBox SelectedItem="{Binding Queries.QueryType, Mode=TwoWay}">
                             <ComboBoxItem IsSelected="True">
                                 Timekeeping
@@ -84,7 +86,6 @@
                             </ComboBoxItem>
                         </ComboBox>
                         <Button
-                            x:Name="MacroButton"
                             Command="{Binding QueryCommand}"
                             CommandParameter="{Binding Queries}"
                             Cursor="Hand"

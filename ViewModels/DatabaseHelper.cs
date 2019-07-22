@@ -11,29 +11,20 @@ namespace RhumbixAPIConnector.ViewModels
     {
         public static readonly string DbFile = Path.Combine(Environment.CurrentDirectory, "TURNER_LOCALDB.db3");
 
-        public static async Task<bool> InsertManyAsync<T>(List<T> lists, bool dropTable)
+        public static async Task<int> InsertManyAsync<T>(List<T> lists, bool dropTable)
         {
-            var result = false;
-
-            await Task.Run((() =>
-            {
-                using (var conn = new SQLiteConnection(DbFile))
-                {
-                    if (dropTable)
-                    {
-                        conn.DropTable<T>();
-                    }
-                    conn.CreateTable<T>();
-                    foreach (var item in lists)
-                    {
-                        var numberOfRows = conn.Insert(item);
-                        if (numberOfRows > 0)
-                            result = true;
-                    }
-                }
-                return result;
-            }));
-            return result;
+            return await Task.Run((() =>
+             {
+                 using (var conn = new SQLiteConnection(DbFile))
+                 {
+                     if (dropTable)
+                     {
+                         conn.DropTable<T>();
+                     }
+                     conn.CreateTable<T>();
+                     return conn.InsertAll(lists); // Return number of rows affected
+                 }
+             }));
         }
 
         public static bool Insert<T>(T item)

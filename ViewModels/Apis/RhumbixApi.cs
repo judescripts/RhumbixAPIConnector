@@ -21,10 +21,11 @@ namespace RhumbixAPIConnector.ViewModels.Apis
             ShiftExtraEntries,
             Employees,
             Projects,
-            // TODO: Implement additional endpoint integrations
             Absences,
-            CostCodes
-
+            CostCodes,
+            TimeKeepingHistory,
+            ShiftExtraHistory,
+            AbsencesHistory
         }
         /// <summary>
         /// Select type of query and initiate api call
@@ -34,7 +35,7 @@ namespace RhumbixAPIConnector.ViewModels.Apis
         /// <param name="startDate">Effective query start date</param>
         /// <param name="endDate">Effective query end date</param>
         /// <returns></returns>
-        public static async Task<T> GetQueryTypes<T>(QueryType queryType, string startDate, string endDate)
+        public static async Task<T> GetQueryTypes<T>(QueryType queryType, string startDate, string endDate, string ids)
         {
             var type = "";
             var queryParams = "";
@@ -72,6 +73,41 @@ namespace RhumbixAPIConnector.ViewModels.Apis
                     url = BaseUrl + query;
                     var projects = await GetQueries(url);
                     return (T)Convert.ChangeType(projects, typeof(T));
+                case QueryType.CostCodes:
+                    type = "cost_codes";
+                    queryParams = $"&start_date={startDate}&end_date={endDate}";
+                    query = $"{type}/?page_size=200{queryParams}";
+                    url = BaseUrl + query;
+                    var costCodes = await GetQueries(url);
+                    return (T)Convert.ChangeType(costCodes, typeof(T));
+                case QueryType.Absences:
+                    type = "absences";
+                    queryParams = $"&start_date={startDate}&end_date={endDate}";
+                    query = $"{type}/?page_size=200{queryParams}";
+                    url = BaseUrl + query;
+                    var absences = await GetQueries(url);
+                    return (T)Convert.ChangeType(absences, typeof(T));
+                case QueryType.TimeKeepingHistory:
+                    type = "timekeeping_entries/history";
+                    queryParams = $"&ids={ids}";
+                    query = $"{type}/?page_size=200{queryParams}";
+                    url = BaseUrl + query;
+                    var timekeepingHistory = await GetQueries(url);
+                    return (T)Convert.ChangeType(timekeepingHistory, typeof(T));
+                case QueryType.ShiftExtraHistory:
+                    type = "shift_extra_entries/history";
+                    queryParams = $"&ids={ids}";
+                    query = $"{type}/?page_size=200{queryParams}";
+                    url = BaseUrl + query;
+                    var shiftExtraHistory = await GetQueries(url);
+                    return (T)Convert.ChangeType(shiftExtraHistory, typeof(T));
+                case QueryType.AbsencesHistory:
+                    type = "absences/history";
+                    queryParams = $"&ids={ids}";
+                    query = $"{type}/?page_size=200{queryParams}";
+                    url = BaseUrl + query;
+                    var absencesHistory = await GetQueries(url);
+                    return (T)Convert.ChangeType(absencesHistory, typeof(T));
             }
 
             return (T)Convert.ChangeType(null, typeof(T));
