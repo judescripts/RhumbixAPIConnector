@@ -1,7 +1,4 @@
-﻿using RhumbixAPIConnector.ViewModels;
-using RhumbixAPIConnector.ViewModels.Apis;
-using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 
 namespace RhumbixAPIConnector.Views
 {
@@ -13,20 +10,6 @@ namespace RhumbixAPIConnector.Views
         public ApiConnectorWindow()
         {
             InitializeComponent();
-            //TestMethod();
-            //TestMethodAsync();
-        }
-
-        public void TestMethod()
-        {
-            var result = ApiConnectorVm.GetIdArrays(RhumbixApi.QueryType.TimekeepingEntries);
-            Debug.WriteLine(result);
-        }
-
-        public async void TestMethodAsync()
-        {
-
-
         }
     }
 }

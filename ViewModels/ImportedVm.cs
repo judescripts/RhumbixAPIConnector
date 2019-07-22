@@ -230,7 +230,6 @@ namespace RhumbixAPIConnector.ViewModels
         }
         public async void TransformTurnerData()
         {
-
             var employeesList = DatabaseHelper.GetList<Employee>();
             var projectsList = DatabaseHelper.GetList<Project>();
             var costCodesList = DatabaseHelper.GetList<CostCodes>();
@@ -310,6 +309,7 @@ namespace RhumbixAPIConnector.ViewModels
                                 AttendanceType = "800",
                                 CompanyCode = "3000",
                                 Hours = (double)item.StandardTimeMinutes / 60,
+
                                 FirstName = firstName,
                                 LastName = lastName,
                                 EmployeeName = $"{firstName} {lastName}",

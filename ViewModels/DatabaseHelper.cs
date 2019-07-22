@@ -55,19 +55,20 @@ namespace RhumbixAPIConnector.ViewModels
             }
         }
 
-        public static bool Insert<T>(T item)
+        public static async Task<int> Insert<T>(T item, bool dropTable)
         {
-            var result = false;
-
-            using (var conn = new SQLiteConnection(DbFile))
+            return await Task.Run(() =>
             {
-                conn.CreateTable<T>();
-                var numberOfRows = conn.Insert(item);
-                if (numberOfRows > 0)
-                    result = true;
-            }
-
-            return result;
+                using (var conn = new SQLiteConnection(DbFile))
+                {
+                    if (dropTable)
+                    {
+                        conn.DropTable<T>();
+                    }
+                    conn.CreateTable<T>();
+                    return conn.Insert(item);
+                }
+            });
         }
 
         public static bool Update<T>(T item)

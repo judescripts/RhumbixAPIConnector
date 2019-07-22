@@ -29,7 +29,7 @@
                 <MenuItem
                     Command="{Binding ShowApiKeyViewCommand}"
                     FontWeight="Normal"
-                    Header="Api Keys" />
+                    Header="Api Token Manager" />
                 <MenuItem
                     Command="{Binding ShowStatusViewCommand}"
                     FontWeight="Normal"
@@ -56,7 +56,7 @@
                     BorderThickness="0" />
             </StatusBarItem>
         </StatusBar>
-        <Grid DataContext="{StaticResource Vm}">
+        <Grid xmlns:Ph="clr-namespace:RhumbixAPIConnector.ViewModels" DataContext="{StaticResource Vm}">
             <Grid.Background>
                 <ImageBrush ImageSource="..\assets/james-sullivan-801325-unsplash.jpg" />
             </Grid.Background>
@@ -74,6 +74,15 @@
                             Style="{StaticResource Headers}"
                             Text="End Date" />
                         <DatePicker Text="{Binding Queries.EndDate, Mode=TwoWay}" />
+                        <TextBlock
+                            Margin="0,10,0,0"
+                            Foreground="White"
+                            Style="{StaticResource Headers}"
+                            Text="Enter Pin" />
+                        <PasswordBox
+                            Ph:PasswordHelper.Attach="True"
+                            Ph:PasswordHelper.Password="{Binding Queries.Pin, Mode=TwoWay}"
+                            MaxLength="6" />
                         <Button
                             Command="{Binding QueryCommand}"
                             CommandParameter="{Binding Queries}"

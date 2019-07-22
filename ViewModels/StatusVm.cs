@@ -1,7 +1,16 @@
 ﻿namespace RhumbixAPIConnector.ViewModels
 {
-    // TODO: Implement user controls for status
     public class StatusVm
     {
+        public string StatusDetails { get; set; }
+        public void GetStatus()
+        {
+            StatusDetails = FileSystemsHelpers.ReadFiles();
+        }
+
+        public StatusVm()
+        {
+            GetStatus();
+        }
     }
 }

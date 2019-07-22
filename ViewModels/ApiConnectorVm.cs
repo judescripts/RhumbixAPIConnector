@@ -37,21 +37,23 @@ namespace RhumbixAPIConnector.ViewModels
         /// <param name="queries">Query start date and end date</param>
         public async void RhumbixApiTaskQueues(Queries queries)
         {
+            var key = FetchApiToken(queries.Pin);
+
             FileSystemsHelpers.ClearAllTexts();
             FileSystemsHelpers.WriteToFile($"Last imported time: {DateTime.Now}");
 
             // If no date is selected, abort method call
             if (queries.StartDate == "" || queries.EndDate == "") return;
 
-            await RunQueryAsync(queries, "Timekeeping");
-            await RunQueryAsync(queries, "Shift Extra");
-            await RunQueryAsync(queries, "Employees");
-            await RunQueryAsync(queries, "Projects");
-            await RunQueryAsync(queries, "Cost Codes");
-            await RunQueryAsync(queries, "Absences");
-            await RunQueryAsync(queries, "Timekeeping History");
-            await RunQueryAsync(queries, "Shift Extra History");
-            await RunQueryAsync(queries, "Absences History");
+            await RunQueryAsync(queries, "Timekeeping", key);
+            await RunQueryAsync(queries, "Shift Extra", key);
+            await RunQueryAsync(queries, "Employees", key);
+            await RunQueryAsync(queries, "Projects", key);
+            await RunQueryAsync(queries, "Cost Codes", key);
+            await RunQueryAsync(queries, "Absences", key);
+            await RunQueryAsync(queries, "Timekeeping History", key);
+            await RunQueryAsync(queries, "Shift Extra History", key);
+            await RunQueryAsync(queries, "Absences History", key);
 
             MessageBox.Show("Import complete! Please review status menu for detailed results", "Rhumbix API Connector", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -110,7 +112,7 @@ namespace RhumbixAPIConnector.ViewModels
         /// Call Rhumbix Api utility function
         /// </summary>
         /// <param name="queries">Enum selection query type</param>
-        public async Task RunQueryAsync(Queries queries, string selection)
+        public async Task RunQueryAsync(Queries queries, string selection, string key)
         {
             var timeList = new List<Timekeeping>();
             var shiftList = new List<ShiftExtra>();
@@ -127,7 +129,7 @@ namespace RhumbixAPIConnector.ViewModels
             {
                 case "Timekeeping":
                     var timeResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.TimekeepingEntries,
-                        queries.StartDate, queries.EndDate, string.Empty);
+                        queries.StartDate, queries.EndDate, string.Empty, key);
                     foreach (var results in timeResults)
                     {
                         foreach (var result in results.Results)
@@ -140,7 +142,7 @@ namespace RhumbixAPIConnector.ViewModels
                     break;
                 case "Shift Extra":
                     var shiftResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.ShiftExtraEntries,
-                        queries.StartDate, queries.EndDate, string.Empty);
+                        queries.StartDate, queries.EndDate, string.Empty, key);
                     foreach (var results in shiftResults)
                     {
                         foreach (var result in results.Results)
@@ -155,7 +157,7 @@ namespace RhumbixAPIConnector.ViewModels
                     break;
                 case "Employees":
                     var employeesResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.Employees,
-                        queries.StartDate, queries.EndDate, string.Empty);
+                        queries.StartDate, queries.EndDate, string.Empty, key);
                     foreach (var results in employeesResults)
                     {
                         foreach (var result in results.Results)
@@ -171,7 +173,7 @@ namespace RhumbixAPIConnector.ViewModels
                     break;
                 case "Projects":
                     var projectsResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.Projects,
-                        queries.StartDate, queries.EndDate, string.Empty);
+                        queries.StartDate, queries.EndDate, string.Empty, key);
                     foreach (var results in projectsResults)
                     {
                         foreach (var result in results.Results)
@@ -184,7 +186,7 @@ namespace RhumbixAPIConnector.ViewModels
                     break;
                 case "Cost Codes":
                     var costCodesResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.CostCodes,
-                        queries.StartDate, queries.EndDate, string.Empty);
+                        queries.StartDate, queries.EndDate, string.Empty, key);
                     foreach (var results in costCodesResults)
                     {
                         foreach (var result in results.Results)
@@ -197,7 +199,7 @@ namespace RhumbixAPIConnector.ViewModels
                     break;
                 case "Absences":
                     var absencesResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.Absences,
-                        queries.StartDate, queries.EndDate, string.Empty);
+                        queries.StartDate, queries.EndDate, string.Empty, key);
                     foreach (var results in absencesResults)
                     {
                         foreach (var result in results.Results)
@@ -211,7 +213,7 @@ namespace RhumbixAPIConnector.ViewModels
                 case "Timekeeping History":
                     ids = GetIdArrays(RhumbixApi.QueryType.TimekeepingEntries).Trim(); // Call helper method to retrieve all unique ids
                     var timeHistoryResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.TimeKeepingHistory,
-                        queries.StartDate, queries.EndDate, ids);
+                        queries.StartDate, queries.EndDate, ids, key);
                     foreach (var results in timeHistoryResults)
                     {
                         foreach (var result in results.Results)
@@ -225,7 +227,7 @@ namespace RhumbixAPIConnector.ViewModels
                 case "Shift Extra History":
                     ids = GetIdArrays(RhumbixApi.QueryType.ShiftExtraHistory).Trim(); // Call helper method to retrieve all unique ids
                     var shiftHistoryResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.ShiftExtraHistory,
-                        queries.StartDate, queries.EndDate, ids);
+                        queries.StartDate, queries.EndDate, ids, key);
                     foreach (var results in shiftHistoryResults)
                     {
                         foreach (var result in results.Results)
@@ -239,7 +241,7 @@ namespace RhumbixAPIConnector.ViewModels
                 case "Absences History":
                     ids = GetIdArrays(RhumbixApi.QueryType.AbsencesHistory).Trim(); // Call helper method to retrieve all unique ids
                     var absencesHistoryResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.AbsencesHistory,
-                        queries.StartDate, queries.EndDate, ids);
+                        queries.StartDate, queries.EndDate, ids, key);
                     foreach (var results in absencesHistoryResults)
                     {
                         foreach (var result in results.Results)
@@ -252,7 +254,11 @@ namespace RhumbixAPIConnector.ViewModels
                     break;
             }
         }
-
+        private static string FetchApiToken(string pin)
+        {
+            var hashedKey = DatabaseHelper.GetList<Tokens>();
+            return Crypto.DecryptStringAES(hashedKey[0].ApiToken, pin);
+        }
         public void ShowImportedView()
         {
             var importedWin = new ImportedWindow();

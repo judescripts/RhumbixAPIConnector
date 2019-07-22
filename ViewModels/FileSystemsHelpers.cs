@@ -46,5 +46,16 @@ namespace RhumbixAPIConnector.ViewModels
                 sw.Write(string.Empty);
             }
         }
+        public static string ReadFiles()
+        {
+            var systemPath = System.Environment.
+                GetFolderPath(
+                    Environment.SpecialFolder.CommonApplicationData
+                );
+            Directory.CreateDirectory(systemPath + @"\Rhumbix");
+            var completePath = systemPath + @"\Rhumbix\status.txt";
+
+            return File.ReadAllText(completePath);
+        }
     }
 }

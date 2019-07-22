@@ -102,12 +102,15 @@
     <Compile Include="Models\ShiftExtraHistory.cs" />
     <Compile Include="Models\TimekeepingHistory.cs" />
     <Compile Include="Models\Timekeeping.cs" />
+    <Compile Include="Models\Tokens.cs" />
     <Compile Include="Models\Transform.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\ApiKeysVm.cs" />
     <Compile Include="ViewModels\ApiConnectorVm.cs" />
     <Compile Include="ViewModels\Apis\RhumbixApi.cs" />
     <Compile Include="ViewModels\Commands\ExportCsvCommand.cs" />
     <Compile Include="ViewModels\Commands\QueryCommand.cs" />
+    <Compile Include="ViewModels\Commands\SaveTokenCommand.cs" />
     <Compile Include="ViewModels\Commands\ShowApiKeyViewCommand.cs" />
     <Compile Include="ViewModels\Commands\ShowEmployeesViewCommand.cs" />
     <Compile Include="ViewModels\Commands\ShowImportedViewCommand.cs" />
@@ -117,6 +120,8 @@
     <Compile Include="ViewModels\EmployeesVm.cs" />
     <Compile Include="ViewModels\FileSystemsHelpers.cs" />
     <Compile Include="ViewModels\ImportedVm.cs" />
+    <Compile Include="ViewModels\PasswordHelper.cs" />
+    <Compile Include="ViewModels\Securities.cs" />
     <Compile Include="ViewModels\StatusVm.cs" />
     <Compile Include="Views\ApiConnectorWindow.xaml.cs">
       <DependentUpon>ApiConnectorWindow.xaml</DependentUpon>
@@ -242,8 +247,6 @@
     <Resource Include="assets\iconfinder_settings_pencil_290406.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="assets\clogo.png" />
-    <Resource Include="assets\cloud-download-alt-solid.png" />
     <Resource Include="assets\james-sullivan-801325-unsplash.jpg" />
     <Resource Include="assets\rhumbixfavicon.ico" />
     <Resource Include="assets\rhumbixfavicon.png" />

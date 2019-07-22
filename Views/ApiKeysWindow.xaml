@@ -1,12 +1,69 @@
-﻿<Window x:Class="RhumbixAPIConnector.Views.ApiKeysWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RhumbixAPIConnector.Views"
-        mc:Ignorable="d"
-        Title="ApiKeysWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+﻿<Window
+    x:Class="RhumbixAPIConnector.Views.ApiKeysWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RhumbixAPIConnector.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:RhumbixAPIConnector.ViewModels"
+    Title="API Token Manager"
+    Width="500"
+    Height="300"
+    Icon="/RhumbixAPIConnector;component/assets/rhumbixfavicon.ico"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <viewModel:ApiKeysVm x:Key="Vm" />
+    </Window.Resources>
+    <StackPanel xmlns:Ph="clr-namespace:RhumbixAPIConnector.ViewModels" DataContext="{StaticResource Vm}">
+        <Button
+            Command="{Binding SaveTokenCommand}"
+            CommandParameter="{Binding Tokens}"
+            Cursor="Hand"
+            Style="{StaticResource CommandButton}">
+            <StackPanel VerticalAlignment="Center">
+                <Image MaxHeight="75" Margin="20">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Width" Value="95" />
+                            <Setter Property="Source" Value="../assets/iconfinder_barrier_290413.png" />
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
+        </Button>
+        <TextBlock
+            Height="40"
+            Margin="20,0,20,0"
+            HorizontalAlignment="Center"
+            FontSize="20"
+            FontWeight="Bold"
+            Foreground="#FF4B4B4B"
+            Text="Save API Token" />
+        <TextBlock
+            Margin="20,0,20,0"
+            FontWeight="Bold"
+            Foreground="#FF4B4B4B"
+            Text="Enter API token Here" />
+        <PasswordBox
+            Height="20"
+            Margin="20,0,20,0"
+            Ph:PasswordHelper.Attach="True"
+            Ph:PasswordHelper.Password="{Binding Tokens.ApiToken, Mode=TwoWay}"
+            Background="#66E8FF00"
+            BorderThickness="0" />
+        <TextBlock
+            Margin="20,10,20,0"
+            FontWeight="Bold"
+            Foreground="#FF4B4B4B"
+            Text="Select a 6 digit pin" />
+        <PasswordBox
+            Height="20"
+            Margin="20,0,20,0"
+            Ph:PasswordHelper.Attach="True"
+            Ph:PasswordHelper.Password="{Binding Tokens.SecretPin, Mode=TwoWay}"
+            Background="#66E8FF00"
+            BorderThickness="0"
+            MaxLength="6" />
+    </StackPanel>
 </Window>

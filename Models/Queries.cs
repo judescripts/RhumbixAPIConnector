@@ -26,6 +26,19 @@ namespace RhumbixAPIConnector.Models
             }
         }
 
+        private string _pin;
+
+        public string Pin
+        {
+            get => _pin;
+            set
+            {
+                _pin = value;
+                OnPropertyChanged("Pin");
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

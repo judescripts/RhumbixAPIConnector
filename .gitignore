@@ -341,3 +341,5 @@ ASALocalRun/
 healthchecksdb
 
 App.Config
+Securities.cs
+PasswordHelper.cs
