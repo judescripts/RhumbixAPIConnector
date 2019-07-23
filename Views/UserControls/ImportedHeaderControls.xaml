@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:RhumbixAPIConnector.ViewModels"
     d:DesignHeight="200"
-    d:DesignWidth="500"
+    d:DesignWidth="800"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -38,6 +38,11 @@
                         FontSize="20"
                         FontWeight="Bold"
                         Text="Status" />
+                    <TextBlock
+                        Margin="70,0,20,0"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="Refresh" />
                 </StackPanel>
             </Grid>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -86,6 +91,24 @@
                                 <Style TargetType="{x:Type Image}">
                                     <Setter Property="Width" Value="95" />
                                     <Setter Property="Source" Value="../../assets/iconfinder_hummer_settings_290405.png" />
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </StackPanel>
+                </Button>
+                <Button
+                    Margin="10"
+                    Command="{Binding RefreshDataCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                    Cursor="Hand"
+                    DataContext="{StaticResource Iv}"
+                    Style="{StaticResource CommandButton}">
+                    <StackPanel VerticalAlignment="Center">
+                        <Image MaxHeight="75" Margin="20">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Width" Value="95" />
+                                    <Setter Property="Source" Value="../../assets/iconfinder_digging_290408.png" />
                                 </Style>
                             </Image.Style>
                         </Image>

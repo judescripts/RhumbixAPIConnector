@@ -1,44 +1,169 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using RhumbixAPIConnector.Annotations;
 using System;
+using System.ComponentModel;
 using System.Globalization;
 
 namespace RhumbixAPIConnector.Models
 {
-    public partial class Absences
+    public partial class Absences : INotifyPropertyChanged
     {
         [JsonProperty("work_shift_key")]
-        public string WorkShiftKey { get; set; }
+
+        private string _workShiftKey;
+        public string WorkShiftKey
+        {
+            get => _workShiftKey;
+            set
+            {
+                _workShiftKey = value;
+                OnPropertyChanged("WorkShiftKey");
+            }
+        }
 
         [JsonProperty("end_time")]
-        public string EndTime { get; set; }
+        private string _endTime;
+
+        public string EndTime
+        {
+            get => _endTime;
+            set
+            {
+                _endTime = value;
+                OnPropertyChanged("EndTime");
+            }
+
+        }
+
 
         [JsonProperty("start_time")]
-        public string StartTime { get; set; }
+        private string _startTime;
+
+        public string StartTime
+        {
+            get => _startTime;
+            set
+            {
+                _startTime = value;
+                OnPropertyChanged("StartTime");
+            }
+        }
+
 
         [JsonProperty("employee")]
-        public string Employee { get; set; }
+        private string _employee;
+
+        public string Employee
+        {
+            get => _employee;
+            set
+            {
+                _employee = value;
+                OnPropertyChanged("Employee");
+            }
+        }
 
         [JsonProperty("shift_date")]
-        public string ShiftDate { get; set; }
+        private string _shiftDate;
+
+        public string ShiftDate
+        {
+            get => _shiftDate;
+            set
+            {
+                _shiftDate = value;
+                OnPropertyChanged("ShiftDate");
+            }
+        }
+
 
         [JsonProperty("status")]
-        public string Status { get; set; }
+        private string _status;
+
+        public string Status
+        {
+            get => _status;
+            set
+            {
+                _status = value;
+                OnPropertyChanged("Status");
+            }
+        }
 
         [JsonProperty("is_approved")]
-        public bool IsApproved { get; set; }
+        private bool _isApproved;
+
+        public bool IsApproved
+        {
+            get => _isApproved;
+            set
+            {
+                _isApproved = value;
+                OnPropertyChanged("IsApproved");
+            }
+        }
 
         [JsonProperty("type")]
-        public string Type { get; set; }
+        private string _type;
+
+        public string Type
+        {
+            get => _type;
+            set
+            {
+                _type = value;
+                OnPropertyChanged("Type");
+            }
+        }
 
         [JsonProperty("timezone")]
-        public string Timezone { get; set; }
+        private string _timezone;
+
+        public string Timezone
+        {
+            get => _timezone;
+            set
+            {
+                _timezone = value;
+                OnPropertyChanged("Timezone");
+            }
+        }
 
         [JsonProperty("id")]
-        public string Id { get; set; }
+        private string _id;
+
+        public string Id
+        {
+            get => _id;
+            set
+            {
+                _id = value;
+                OnPropertyChanged("Id");
+            }
+        }
 
         [JsonProperty("last_updated")]
-        public string LastUpdated { get; set; }
+        private string _lastUpdated;
+
+        public string LastUpdated
+        {
+            get => _lastUpdated;
+            set
+            {
+                _lastUpdated = value;
+                OnPropertyChanged("LastUpdated");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        }
     }
 
     public partial class Absences

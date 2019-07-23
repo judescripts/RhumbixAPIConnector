@@ -24,5 +24,12 @@ namespace RhumbixAPIConnector.Views.UserControls
         {
             InitializeComponent();
         }
+
+        private void RefreshButton_OnClick(object sender, RoutedEventArgs e)
+        {
+
+            
+
+        }
     }
 }

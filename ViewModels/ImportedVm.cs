@@ -7,12 +7,19 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 
 namespace RhumbixAPIConnector.ViewModels
 {
     public class ImportedVm
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        public CollectionViewSource TransformedViewSource { get; set; }
+        public CollectionViewSource AbsencesViewSource { get; set; }
+        public CollectionViewSource CostCodesViewSource { get; set; }
+        public CollectionViewSource ProjectsViewSource { get; set; }
+        public CollectionViewSource ShiftExtraViewSource { get; set; }
+        public CollectionViewSource TimekeepingViewSource { get; set; }
         public Timekeeping Timekeeping { get; set; }
         public ShiftExtra ShiftExtra { get; set; }
         public Transform Transform { get; set; }
@@ -28,6 +35,7 @@ namespace RhumbixAPIConnector.ViewModels
         public ObservableCollection<Transform> TransformedList { get; set; }
         public TransformCommand TransformCommand { get; set; }
         public ExportCsvCommand ExportCsvCommand { get; set; }
+        public RefreshDataCommand RefreshDataCommand { get; set; }
         public ImportedVm()
         {
             Timekeeping = new Timekeeping();
@@ -44,8 +52,22 @@ namespace RhumbixAPIConnector.ViewModels
             AbsencesHistoryList = new ObservableCollection<AbsencesHistory>();
             TransformedList = new ObservableCollection<Transform>();
 
+            TransformedViewSource = new CollectionViewSource();
+            TransformedViewSource.Source = TransformedList;
+            AbsencesViewSource = new CollectionViewSource();
+            AbsencesViewSource.Source = AbsencesList;
+            CostCodesViewSource = new CollectionViewSource();
+            CostCodesViewSource.Source = CostCodesList;
+            ProjectsViewSource = new CollectionViewSource();
+            ProjectsViewSource.Source = ProjectsList;
+            ShiftExtraViewSource = new CollectionViewSource();
+            ShiftExtraViewSource.Source = ShiftExtraList;
+            TimekeepingViewSource = new CollectionViewSource();
+            TimekeepingViewSource.Source = TimeList;
+
             TransformCommand = new TransformCommand(this);
             ExportCsvCommand = new ExportCsvCommand(this);
+            RefreshDataCommand = new RefreshDataCommand(this);
 
             GetTimeKeepingList();
             GetShiftExtraList();
@@ -58,6 +80,7 @@ namespace RhumbixAPIConnector.ViewModels
             GetAbsencesHistoryList();
             GetTransformedList();
         }
+
 
         /// <summary>
         /// Eager load data from database
@@ -550,7 +573,6 @@ namespace RhumbixAPIConnector.ViewModels
                 {
                     // Implementation to be determined. Not applicable for Turner transformation
                 }
-
                 var numOfRows = await DatabaseHelper.InsertManyAsync<Transform>(turnerList, true);
                 FileSystemsHelpers.WriteToFile($"Number of transformed records: {numOfRows}");
                 MessageBox.Show("Data transformation complete!", "Rhumbix Macro", MessageBoxButton.OK,
@@ -575,6 +597,5 @@ namespace RhumbixAPIConnector.ViewModels
                 MessageBox.Show("Export complete!", "Rhumbix Export", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-
     }
 }

@@ -119,6 +119,7 @@
     <Compile Include="ViewModels\Apis\RhumbixApi.cs" />
     <Compile Include="ViewModels\Commands\ExportCsvCommand.cs" />
     <Compile Include="ViewModels\Commands\QueryCommand.cs" />
+    <Compile Include="ViewModels\Commands\RefreshDataCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveTokenCommand.cs" />
     <Compile Include="ViewModels\Commands\ShowApiKeyViewCommand.cs" />
     <Compile Include="ViewModels\Commands\ShowEmployeesViewCommand.cs" />
@@ -188,6 +189,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="assets\iconfinder_digging_290408.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

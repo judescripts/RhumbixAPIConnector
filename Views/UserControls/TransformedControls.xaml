@@ -11,7 +11,7 @@
     <DataGrid
         AutoGenerateColumns="False"
         CanUserResizeColumns="True"
-        ItemsSource="{Binding TransformedList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        ItemsSource="{Binding TransformedViewSource.View}">
         <DataGrid.ColumnHeaderStyle>
             <Style TargetType="{x:Type DataGridColumnHeader}">
                 <Setter Property="FontWeight" Value="Bold" />

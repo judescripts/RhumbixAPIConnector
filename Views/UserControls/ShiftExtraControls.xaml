@@ -11,7 +11,7 @@
     <DataGrid
         AutoGenerateColumns="False"
         CanUserResizeColumns="True"
-        ItemsSource="{Binding ShiftExtraList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        ItemsSource="{Binding ShiftExtraViewSource}">
         <DataGrid.ColumnHeaderStyle>
             <Style TargetType="{x:Type DataGridColumnHeader}">
                 <Setter Property="FontWeight" Value="Bold" />
