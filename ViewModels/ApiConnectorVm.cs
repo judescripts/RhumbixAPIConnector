@@ -6,6 +6,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +16,11 @@ namespace RhumbixAPIConnector.ViewModels
     public class ApiConnectorVm
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        private static readonly string SystemPath =
+            System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+
+        private static readonly string statusPath = SystemPath + @"\Rhumbix\status.txt";
         public Queries Queries { get; set; }
         public QueryCommand QueryCommand { get; set; }
         public ShowImportedViewCommand ShowImportedViewCommand { get; set; }
@@ -38,6 +44,12 @@ namespace RhumbixAPIConnector.ViewModels
         public async void RhumbixApiTaskQueues(Queries queries)
         {
             var key = FetchApiToken(queries.Pin);
+            if (key == "")
+            {
+                MessageBox.Show("Invalid pin please try again", "Rhumbix error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
 
             FileSystemsHelpers.ClearAllTexts();
             FileSystemsHelpers.WriteToFile($"Last imported time: {DateTime.Now}");
@@ -46,6 +58,15 @@ namespace RhumbixAPIConnector.ViewModels
             if (queries.StartDate == "" || queries.EndDate == "") return;
 
             await RunQueryAsync(queries, "Timekeeping", key);
+
+            // Sentry method to validate success or short circuit
+            if (File.ReadLines(statusPath).Last() == "Access denied")
+            {
+                MessageBox.Show("Invalid API token credentials please try again", "Rhumbix error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+
             await RunQueryAsync(queries, "Shift Extra", key);
             await RunQueryAsync(queries, "Employees", key);
             await RunQueryAsync(queries, "Projects", key);
@@ -130,6 +151,7 @@ namespace RhumbixAPIConnector.ViewModels
                 case "Timekeeping":
                     var timeResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.TimekeepingEntries,
                         queries.StartDate, queries.EndDate, string.Empty, key);
+                    if (timeResults == null) return;
                     foreach (var results in timeResults)
                     {
                         foreach (var result in results.Results)
@@ -139,10 +161,12 @@ namespace RhumbixAPIConnector.ViewModels
                     }
                     var numOfRows = await DatabaseHelper.InsertManyAsync<Timekeeping>(timeList, true);
                     FileSystemsHelpers.WriteToFile($"Number of timekeeping records imported: {numOfRows}");
+
                     break;
                 case "Shift Extra":
                     var shiftResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.ShiftExtraEntries,
                         queries.StartDate, queries.EndDate, string.Empty, key);
+                    if (shiftResults == null) return;
                     foreach (var results in shiftResults)
                     {
                         foreach (var result in results.Results)
@@ -158,6 +182,7 @@ namespace RhumbixAPIConnector.ViewModels
                 case "Employees":
                     var employeesResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.Employees,
                         queries.StartDate, queries.EndDate, string.Empty, key);
+                    if (employeesResults == null) return;
                     foreach (var results in employeesResults)
                     {
                         foreach (var result in results.Results)
@@ -174,6 +199,7 @@ namespace RhumbixAPIConnector.ViewModels
                 case "Projects":
                     var projectsResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.Projects,
                         queries.StartDate, queries.EndDate, string.Empty, key);
+                    if (projectsResults == null) return;
                     foreach (var results in projectsResults)
                     {
                         foreach (var result in results.Results)
@@ -187,6 +213,7 @@ namespace RhumbixAPIConnector.ViewModels
                 case "Cost Codes":
                     var costCodesResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.CostCodes,
                         queries.StartDate, queries.EndDate, string.Empty, key);
+                    if (costCodesResults == null) return;
                     foreach (var results in costCodesResults)
                     {
                         foreach (var result in results.Results)
@@ -200,6 +227,7 @@ namespace RhumbixAPIConnector.ViewModels
                 case "Absences":
                     var absencesResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.Absences,
                         queries.StartDate, queries.EndDate, string.Empty, key);
+                    if (absencesResults == null) return;
                     foreach (var results in absencesResults)
                     {
                         foreach (var result in results.Results)
@@ -214,6 +242,7 @@ namespace RhumbixAPIConnector.ViewModels
                     ids = GetIdArrays(RhumbixApi.QueryType.TimekeepingEntries).Trim(); // Call helper method to retrieve all unique ids
                     var timeHistoryResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.TimeKeepingHistory,
                         queries.StartDate, queries.EndDate, ids, key);
+                    if (timeHistoryResults == null) return;
                     foreach (var results in timeHistoryResults)
                     {
                         foreach (var result in results.Results)
@@ -228,6 +257,7 @@ namespace RhumbixAPIConnector.ViewModels
                     ids = GetIdArrays(RhumbixApi.QueryType.ShiftExtraHistory).Trim(); // Call helper method to retrieve all unique ids
                     var shiftHistoryResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.ShiftExtraHistory,
                         queries.StartDate, queries.EndDate, ids, key);
+                    if (shiftHistoryResults == null) return;
                     foreach (var results in shiftHistoryResults)
                     {
                         foreach (var result in results.Results)
@@ -242,6 +272,7 @@ namespace RhumbixAPIConnector.ViewModels
                     ids = GetIdArrays(RhumbixApi.QueryType.AbsencesHistory).Trim(); // Call helper method to retrieve all unique ids
                     var absencesHistoryResults = await RhumbixApi.GetQueryTypes<List<QueryResults>>(RhumbixApi.QueryType.AbsencesHistory,
                         queries.StartDate, queries.EndDate, ids, key);
+                    if (absencesHistoryResults == null) return;
                     foreach (var results in absencesHistoryResults)
                     {
                         foreach (var result in results.Results)
@@ -255,6 +286,12 @@ namespace RhumbixAPIConnector.ViewModels
             }
 
         }
+
+        /// <summary>
+        /// Decrypt and fetch token for server access
+        /// </summary>
+        /// <param name="pin">Custom secret</param>
+        /// <returns></returns>
         private static string FetchApiToken(string pin)
         {
             var hashedKey = DatabaseHelper.GetList<Tokens>();

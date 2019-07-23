@@ -6,6 +6,7 @@ namespace RhumbixAPIConnector.ViewModels
 {
     public class FileSystemsHelpers
     {
+
         public static string GetFilePath()
         {
             var openFileDialog = new OpenFileDialog

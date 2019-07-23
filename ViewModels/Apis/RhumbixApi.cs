@@ -117,9 +117,16 @@ namespace RhumbixAPIConnector.ViewModels.Apis
             {
                 client.DefaultRequestHeaders.Add("x-api-key", key);
                 var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    FileSystemsHelpers.WriteToFile($"Access denied");
+
+                    return null;
+                }
+
                 var json = await response.Content.ReadAsStringAsync();
                 var timeEntries = QueryResults.FromJson(json);
-
 
                 if (timeEntries.Next != null)
                 {
@@ -141,6 +148,10 @@ namespace RhumbixAPIConnector.ViewModels.Apis
             {
                 client.DefaultRequestHeaders.Add("x-api-key", key);
                 var response = await client.GetAsync(url);
+                if ((int)response.StatusCode != 200)
+                {
+                    return null;
+                }
                 var json = await response.Content.ReadAsStringAsync();
                 var timeEntries = QueryResults.FromJson(json);
 
