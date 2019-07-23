@@ -40,10 +40,7 @@
                         Text="Status" />
                 </StackPanel>
             </Grid>
-            <StackPanel
-                HorizontalAlignment="Center"
-                DataContext="{StaticResource Ac}"
-                Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button
                     Margin="10"
                     Command="{Binding TransformCommand}"
@@ -81,6 +78,7 @@
                     Margin="10"
                     Command="{Binding ShowStatusViewCommand}"
                     Cursor="Hand"
+                    DataContext="{StaticResource Ac}"
                     Style="{StaticResource CommandButton}">
                     <StackPanel VerticalAlignment="Center">
                         <Image MaxHeight="75" Margin="20">

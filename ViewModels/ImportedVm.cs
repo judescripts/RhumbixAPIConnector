@@ -243,312 +243,324 @@ namespace RhumbixAPIConnector.ViewModels
             var absencesHistoryList = DatabaseHelper.GetList<AbsencesHistory>();
 
             var turnerList = new List<Transform>();
-
-            // Transform timekeeping data
-            if (timeList != null)
+            try
             {
-                foreach (var item in timeList)
+                Logger.Info("Transform Method");
+
+                // Transform timekeeping data
+                if (timeList != null)
                 {
-                    // Employee query
-                    var employeeQuery = employeesList
-                        .Where(x => x.CompanySuppliedId == item.Employee)
-                        .Select(x => new { x.FirstName, x.LastName, x.Trade, x.Classification })
-                        .First();
-                    var firstName = employeeQuery.FirstName;
-                    var lastName = employeeQuery.LastName;
-                    var trade = employeeQuery.Trade;
-                    var classification = employeeQuery.Trade;
-
-                    // Project query
-                    var projectName = projectsList
-                        .Where(x => x.JobNumber == item.JobNumber)
-                        .Select(x => x.Name)
-                        .First();
-
-                    // Cost code query
-                    var costCodeDescription = costCodesList
-                        .Where(x => x.Code == item.CostCode)
-                        .Select(x => x.Description)
-                        .First();
-
-                    // Approval query
-                    var approverQuery = timeHistoryList
-                        .Where(x => { return x.Id == item.Id && x.Status == "SUPERVISOR_APPROVED"; })
-                        .Select(x => new { x.ModifiedBy, x.HistoryDate })
-                        .First();
-
-                    var approverDetails = employeesList
-                        .Where(x => x.CompanySuppliedId == approverQuery.ModifiedBy)
-                        .Select(x => new { x.FirstName, x.LastName })
-                        .First();
-
-                    var approvalStatus = "Pending";
-                    var approverFirstName = "";
-                    var approverLastName = "";
-                    var approverName = "";
-                    var dateApproved = "";
-                    var timeApproved = "";
-
-                    if (approverQuery != null)
+                    foreach (var item in timeList)
                     {
-                        approvalStatus = "Approved";
-                        approverFirstName = approverDetails.FirstName;
-                        approverLastName = approverDetails.LastName;
-                        approverName = $"{approverFirstName} {approverLastName}";
-                        dateApproved = Convert.ToDateTime(approverQuery.HistoryDate).Date.ToString();
-                        timeApproved =
-                            $"{Convert.ToDateTime(approverQuery.HistoryDate).Hour}:{Convert.ToDateTime(approverQuery.HistoryDate).Minute}";
-                    }
+                        // Employee query
+                        var employeeQuery = employeesList
+                            .Where(x => x.CompanySuppliedId == item.Employee)
+                            .Select(x => new { x.FirstName, x.LastName, x.Trade, x.Classification })
+                            .FirstOrDefault();
+                        var firstName = employeeQuery?.FirstName;
+                        var lastName = employeeQuery?.LastName;
+                        var trade = employeeQuery?.Trade;
+                        var classification = employeeQuery?.Trade;
 
-                    if (item.StandardTimeMinutes > 0)
-                    {
-                        turnerList.Add(
-                            new Transform()
-                            {
-                                PersonnelNo = item.Id,
-                                Date = item.ShiftDate,
-                                ProjectNumber = item.JobNumber,
-                                CostCode = item.CostCode,
-                                ActivityType = "1000",
-                                AttendanceType = "800",
-                                CompanyCode = "3000",
-                                Hours = (double)item.StandardTimeMinutes / 60,
+                        // Project query
+                        var projectName = projectsList
+                            .Where(x => x.JobNumber == item.JobNumber)
+                            .Select(x => x.Name)
+                            .FirstOrDefault();
 
-                                FirstName = firstName,
-                                LastName = lastName,
-                                EmployeeName = $"{firstName} {lastName}",
-                                Trade = trade,
-                                Classification = classification,
-                                ProjectName = projectName,
-                                CostCodeDescription = costCodeDescription,
-                                ApprovalStatus = approvalStatus,
-                                ApproverFirstName = approverFirstName,
-                                ApproverLastName = approverLastName,
-                                ApproverName = approverName,
-                                DateApproved = dateApproved,
-                                TimeApproved = timeApproved
-                            }
+                        // Cost code query
+                        var costCodeDescription = costCodesList
+                            .Where(x => x.Code == item.CostCode)
+                            .Select(x => x.Description)
+                            .FirstOrDefault();
+
+                        // Approval query
+                        var approverQuery = timeHistoryList
+                            .Where(x => x.Id == item.Id && x.Status == "SUPERVISOR_APPROVED")
+                            .Select(x => new { x.ModifiedBy, x.HistoryDate })
+                            .FirstOrDefault();
+
+                        var approverDetails = employeesList
+                            .Where(x => x.CompanySuppliedId == approverQuery?.ModifiedBy)
+                            .Select(x => new { x.FirstName, x.LastName })
+                            .FirstOrDefault();
+
+                        var approvalStatus = "Pending";
+                        var approverFirstName = "";
+                        var approverLastName = "";
+                        var approverName = "";
+                        var dateApproved = "";
+                        var timeApproved = "";
+
+                        if (approverQuery != null)
+                        {
+                            approvalStatus = "Approved";
+                            approverFirstName = approverDetails?.FirstName;
+                            approverLastName = approverDetails?.LastName;
+                            approverName = $"{approverFirstName} {approverLastName}";
+                            dateApproved = Convert.ToDateTime(approverQuery.HistoryDate).Date.ToString();
+                            timeApproved =
+                                $"{Convert.ToDateTime(approverQuery.HistoryDate).Hour}:{Convert.ToDateTime(approverQuery.HistoryDate).Minute}";
+                        }
+
+                        if (item.StandardTimeMinutes > 0)
+                        {
+                            turnerList.Add(
+                                new Transform()
+                                {
+                                    PersonnelNo = item.Id,
+                                    Date = item.ShiftDate,
+                                    ProjectNumber = item.JobNumber,
+                                    CostCode = item.CostCode,
+                                    ActivityType = "1000",
+                                    AttendanceType = "800",
+                                    CompanyCode = "3000",
+                                    Hours = (double)item.StandardTimeMinutes / 60,
+
+                                    FirstName = firstName,
+                                    LastName = lastName,
+                                    EmployeeName = $"{firstName} {lastName}",
+                                    Trade = trade,
+                                    Classification = classification,
+                                    ProjectName = projectName,
+                                    CostCodeDescription = costCodeDescription,
+                                    ApprovalStatus = approvalStatus,
+                                    ApproverFirstName = approverFirstName,
+                                    ApproverLastName = approverLastName,
+                                    ApproverName = approverName,
+                                    DateApproved = dateApproved,
+                                    TimeApproved = timeApproved
+                                }
                             );
-                    }
-                    if (item.OverTimeMinutes > 0)
-                    {
-                        turnerList.Add(
-                            new Transform()
-                            {
-                                PersonnelNo = item.Id,
-                                Date = item.ShiftDate,
-                                ProjectNumber = item.JobNumber,
-                                CostCode = item.CostCode,
-                                ActivityType = "1015",
-                                AttendanceType = "815",
-                                CompanyCode = "3000",
-                                Hours = (double)item.OverTimeMinutes / 60,
-                                FirstName = firstName,
-                                LastName = lastName,
-                                EmployeeName = $"{firstName} {lastName}",
-                                Trade = trade,
-                                Classification = classification,
-                                ProjectName = projectName,
-                                CostCodeDescription = costCodeDescription,
-                                ApprovalStatus = approvalStatus,
-                                ApproverFirstName = approverFirstName,
-                                ApproverLastName = approverLastName,
-                                ApproverName = approverName,
-                                DateApproved = dateApproved,
-                                TimeApproved = timeApproved
-                            }
+                        }
+
+                        if (item.OverTimeMinutes > 0)
+                        {
+                            turnerList.Add(
+                                new Transform()
+                                {
+                                    PersonnelNo = item.Id,
+                                    Date = item.ShiftDate,
+                                    ProjectNumber = item.JobNumber,
+                                    CostCode = item.CostCode,
+                                    ActivityType = "1015",
+                                    AttendanceType = "815",
+                                    CompanyCode = "3000",
+                                    Hours = (double)item.OverTimeMinutes / 60,
+                                    FirstName = firstName,
+                                    LastName = lastName,
+                                    EmployeeName = $"{firstName} {lastName}",
+                                    Trade = trade,
+                                    Classification = classification,
+                                    ProjectName = projectName,
+                                    CostCodeDescription = costCodeDescription,
+                                    ApprovalStatus = approvalStatus,
+                                    ApproverFirstName = approverFirstName,
+                                    ApproverLastName = approverLastName,
+                                    ApproverName = approverName,
+                                    DateApproved = dateApproved,
+                                    TimeApproved = timeApproved
+                                }
                             );
-                    }
-                    if (item.DoubleTimeMinutes > 0)
-                    {
-                        turnerList.Add(
-                            new Transform()
-                            {
-                                PersonnelNo = item.Id,
-                                Date = item.ShiftDate,
-                                ProjectNumber = item.JobNumber,
-                                CostCode = item.CostCode,
-                                ActivityType = "1020",
-                                AttendanceType = "820",
-                                CompanyCode = "3000",
-                                Hours = (double)item.DoubleTimeMinutes / 60,
-                                FirstName = firstName,
-                                LastName = lastName,
-                                EmployeeName = $"{firstName} {lastName}",
-                                Trade = trade,
-                                Classification = classification,
-                                ProjectName = projectName,
-                                CostCodeDescription = costCodeDescription,
-                                ApprovalStatus = approvalStatus,
-                                ApproverFirstName = approverFirstName,
-                                ApproverLastName = approverLastName,
-                                ApproverName = approverName,
-                                DateApproved = dateApproved,
-                                TimeApproved = timeApproved
-                            }
+                        }
+
+                        if (item.DoubleTimeMinutes > 0)
+                        {
+                            turnerList.Add(
+                                new Transform()
+                                {
+                                    PersonnelNo = item.Id,
+                                    Date = item.ShiftDate,
+                                    ProjectNumber = item.JobNumber,
+                                    CostCode = item.CostCode,
+                                    ActivityType = "1020",
+                                    AttendanceType = "820",
+                                    CompanyCode = "3000",
+                                    Hours = (double)item.DoubleTimeMinutes / 60,
+                                    FirstName = firstName,
+                                    LastName = lastName,
+                                    EmployeeName = $"{firstName} {lastName}",
+                                    Trade = trade,
+                                    Classification = classification,
+                                    ProjectName = projectName,
+                                    CostCodeDescription = costCodeDescription,
+                                    ApprovalStatus = approvalStatus,
+                                    ApproverFirstName = approverFirstName,
+                                    ApproverLastName = approverLastName,
+                                    ApproverName = approverName,
+                                    DateApproved = dateApproved,
+                                    TimeApproved = timeApproved
+                                }
                             );
+                        }
                     }
                 }
-            }
-            // Transform absences data
-            if (absencesList != null)
-            {
-                foreach (var item in absencesList)
+
+                // Transform absences data
+                if (absencesList != null)
                 {
-                    // Employee query
-                    var employeeQuery = employeesList
-                        .Where(x => x.CompanySuppliedId == item.Employee)
-                        .Select(x => new { x.FirstName, x.LastName, x.Trade, x.Classification })
-                        .First();
-                    var firstName = employeeQuery.FirstName;
-                    var lastName = employeeQuery.LastName;
-                    var trade = employeeQuery.Trade;
-                    var classification = employeeQuery.Trade;
-
-                    // Approval query
-                    var approverQuery = timeHistoryList
-                        .Where(x => { return x.Id == item.Id && x.Status == "SUPERVISOR_APPROVED"; })
-                        .Select(x => new { x.ModifiedBy, x.HistoryDate })
-                        .First();
-
-                    var approverDetails = employeesList
-                        .Where(x => x.CompanySuppliedId == approverQuery.ModifiedBy)
-                        .Select(x => new { x.FirstName, x.LastName })
-                        .First();
-
-                    var approvalStatus = "Pending";
-                    var approverFirstName = "";
-                    var approverLastName = "";
-                    var approverName = "";
-                    var dateApproved = "";
-                    var timeApproved = "";
-
-                    if (approverQuery != null)
+                    foreach (var item in absencesList)
                     {
-                        approvalStatus = "Approved";
-                        approverFirstName = approverDetails.FirstName;
-                        approverLastName = approverDetails.LastName;
-                        approverName = $"{approverFirstName} {approverLastName}";
-                        dateApproved = Convert.ToDateTime(approverQuery.HistoryDate).Date.ToString();
-                        timeApproved =
-                            $"{Convert.ToDateTime(approverQuery.HistoryDate).Hour}:{Convert.ToDateTime(approverQuery.HistoryDate).Minute}";
-                    }
+                        // Employee query
+                        var employeeQuery = employeesList
+                            .Where(x => x.CompanySuppliedId == item.Employee)
+                            .Select(x => new { x.FirstName, x.LastName, x.Trade, x.Classification })
+                            .First();
+                        var firstName = employeeQuery.FirstName;
+                        var lastName = employeeQuery.LastName;
+                        var trade = employeeQuery.Trade;
+                        var classification = employeeQuery.Trade;
 
-                    if (item.Type == "Holiday")
-                    {
-                        turnerList.Add(
-                            new Transform()
-                            {
-                                PersonnelNo = item.Id,
-                                Date = item.ShiftDate,
-                                ActivityType = "1000",
-                                AbsenceType = "110",
-                                AbsenceDescription = item.Type,
-                                CompanyCode = "3000",
-                                FirstName = firstName,
-                                LastName = lastName,
-                                EmployeeName = $"{firstName} {lastName}",
-                                Trade = trade,
-                                Classification = classification,
-                                ApprovalStatus = approvalStatus,
-                                ApproverFirstName = approverFirstName,
-                                ApproverLastName = approverLastName,
-                                ApproverName = approverName,
-                                DateApproved = dateApproved,
-                                TimeApproved = timeApproved
-                            }
-                        );
-                    }
-                    else if (item.Type == "Vacation")
-                    {
-                        turnerList.Add(
-                            new Transform()
-                            {
-                                PersonnelNo = item.Id,
-                                Date = item.ShiftDate,
-                                ActivityType = "1000",
-                                AbsenceType = "100",
-                                AbsenceDescription = item.Type,
-                                CompanyCode = "3000",
-                                FirstName = firstName,
-                                LastName = lastName,
-                                EmployeeName = $"{firstName} {lastName}",
-                                Trade = trade,
-                                Classification = classification,
-                                ApprovalStatus = approvalStatus,
-                                ApproverFirstName = approverFirstName,
-                                ApproverLastName = approverLastName,
-                                ApproverName = approverName,
-                                DateApproved = dateApproved,
-                                TimeApproved = timeApproved
-                            }
-                        );
-                    }
-                    else if (item.Type == "Sick")
-                    {
+                        // Approval query
+                        var approverQuery = absencesHistoryList
+                            .Where(x => x.Id == item.Id && x.Status == "SUPERVISOR_APPROVED")
+                            .Select(x => new { x.ModifiedBy, x.HistoryDate })
+                            .FirstOrDefault();
 
-                        turnerList.Add(
-                            new Transform()
-                            {
-                                PersonnelNo = item.Id,
-                                Date = item.ShiftDate,
-                                ActivityType = "1000",
-                                AbsenceType = "300",
-                                AbsenceDescription = item.Type,
-                                CompanyCode = "3000",
-                                FirstName = firstName,
-                                LastName = lastName,
-                                EmployeeName = $"{firstName} {lastName}",
-                                Trade = trade,
-                                Classification = classification,
-                                ApprovalStatus = approvalStatus,
-                                ApproverFirstName = approverFirstName,
-                                ApproverLastName = approverLastName,
-                                ApproverName = approverName,
-                                DateApproved = dateApproved,
-                                TimeApproved = timeApproved
-                            }
-                        );
-                    }
-                    else
-                    {
-                        turnerList.Add(
-                            new Transform()
-                            {
-                                PersonnelNo = item.Id,
-                                Date = item.ShiftDate,
-                                ActivityType = "Error - Check Value",
-                                AbsenceType = "Error - Check Value",
-                                AbsenceDescription = item.Type,
-                                CompanyCode = "3000",
-                                FirstName = firstName,
-                                LastName = lastName,
-                                EmployeeName = $"{firstName} {lastName}",
-                                Trade = trade,
-                                Classification = classification,
-                                ApprovalStatus = approvalStatus,
-                                ApproverFirstName = approverFirstName,
-                                ApproverLastName = approverLastName,
-                                ApproverName = approverName,
-                                DateApproved = dateApproved,
-                                TimeApproved = timeApproved
-                            }
-                        );
-                    }
+                        var approverDetails = employeesList
+                            .Where(x => x.CompanySuppliedId == approverQuery?.ModifiedBy)
+                            .Select(x => new { x.FirstName, x.LastName })
+                            .FirstOrDefault();
 
+                        var approvalStatus = "Pending";
+                        var approverFirstName = "";
+                        var approverLastName = "";
+                        var approverName = "";
+                        var dateApproved = "";
+                        var timeApproved = "";
+
+                        if (approverQuery != null)
+                        {
+                            approvalStatus = "Approved";
+                            approverFirstName = approverDetails?.FirstName;
+                            approverLastName = approverDetails?.LastName;
+                            approverName = $"{approverFirstName} {approverLastName}";
+                            dateApproved = Convert.ToDateTime(approverQuery.HistoryDate).Date.ToString();
+                            timeApproved =
+                                $"{Convert.ToDateTime(approverQuery.HistoryDate).Hour}:{Convert.ToDateTime(approverQuery.HistoryDate).Minute}";
+                        }
+
+                        if (item.Type == "Holiday")
+                        {
+                            turnerList.Add(
+                                new Transform()
+                                {
+                                    PersonnelNo = item.Id,
+                                    Date = item.ShiftDate,
+                                    ActivityType = "1000",
+                                    AbsenceType = "110",
+                                    AbsenceDescription = item.Type,
+                                    CompanyCode = "3000",
+                                    FirstName = firstName,
+                                    LastName = lastName,
+                                    EmployeeName = $"{firstName} {lastName}",
+                                    Trade = trade,
+                                    Classification = classification,
+                                    ApprovalStatus = approvalStatus,
+                                    ApproverFirstName = approverFirstName,
+                                    ApproverLastName = approverLastName,
+                                    ApproverName = approverName,
+                                    DateApproved = dateApproved,
+                                    TimeApproved = timeApproved
+                                }
+                            );
+                        }
+                        else if (item.Type == "Vacation")
+                        {
+                            turnerList.Add(
+                                new Transform()
+                                {
+                                    PersonnelNo = item.Id,
+                                    Date = item.ShiftDate,
+                                    ActivityType = "1000",
+                                    AbsenceType = "100",
+                                    AbsenceDescription = item.Type,
+                                    CompanyCode = "3000",
+                                    FirstName = firstName,
+                                    LastName = lastName,
+                                    EmployeeName = $"{firstName} {lastName}",
+                                    Trade = trade,
+                                    Classification = classification,
+                                    ApprovalStatus = approvalStatus,
+                                    ApproverFirstName = approverFirstName,
+                                    ApproverLastName = approverLastName,
+                                    ApproverName = approverName,
+                                    DateApproved = dateApproved,
+                                    TimeApproved = timeApproved
+                                }
+                            );
+                        }
+                        else if (item.Type == "Sick")
+                        {
+
+                            turnerList.Add(
+                                new Transform()
+                                {
+                                    PersonnelNo = item.Id,
+                                    Date = item.ShiftDate,
+                                    ActivityType = "1000",
+                                    AbsenceType = "300",
+                                    AbsenceDescription = item.Type,
+                                    CompanyCode = "3000",
+                                    FirstName = firstName,
+                                    LastName = lastName,
+                                    EmployeeName = $"{firstName} {lastName}",
+                                    Trade = trade,
+                                    Classification = classification,
+                                    ApprovalStatus = approvalStatus,
+                                    ApproverFirstName = approverFirstName,
+                                    ApproverLastName = approverLastName,
+                                    ApproverName = approverName,
+                                    DateApproved = dateApproved,
+                                    TimeApproved = timeApproved
+                                }
+                            );
+                        }
+                        else
+                        {
+                            turnerList.Add(
+                                new Transform()
+                                {
+                                    PersonnelNo = item.Id,
+                                    Date = item.ShiftDate,
+                                    ActivityType = "Error - Check Value",
+                                    AbsenceType = "Error - Check Value",
+                                    AbsenceDescription = item.Type,
+                                    CompanyCode = "3000",
+                                    FirstName = firstName,
+                                    LastName = lastName,
+                                    EmployeeName = $"{firstName} {lastName}",
+                                    Trade = trade,
+                                    Classification = classification,
+                                    ApprovalStatus = approvalStatus,
+                                    ApproverFirstName = approverFirstName,
+                                    ApproverLastName = approverLastName,
+                                    ApproverName = approverName,
+                                    DateApproved = dateApproved,
+                                    TimeApproved = timeApproved
+                                }
+                            );
+                        }
+
+                    }
                 }
+
+                // Transform shift extra data
+                if (ShiftExtraList != null)
+                {
+                    // Implementation to be determined. Not applicable for Turner transformation
+                }
+
+                var numOfRows = await DatabaseHelper.InsertManyAsync<Transform>(turnerList, true);
+                FileSystemsHelpers.WriteToFile($"Number of transformed records: {numOfRows}");
+                MessageBox.Show("Data transformation complete!", "Rhumbix Macro", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
             }
-            // Transform shift extra data
-            if (ShiftExtraList != null)
+            catch (Exception ex)
             {
-                // Implementation to be determined. Not applicable for Turner transformation
+                Logger.Error(ex, "Exception occured during data transformation");
             }
 
-            GetTransformedList();
-            var numOfRows = await DatabaseHelper.InsertManyAsync<Transform>(turnerList, true);
-            FileSystemsHelpers.WriteToFile($"Number of transformed records: {numOfRows}");
-            MessageBox.Show("Data transformation complete!", "Rhumbix Macro", MessageBoxButton.OK,
-                MessageBoxImage.Information);
         }
         public void ExportToCsv()
         {
@@ -563,5 +575,6 @@ namespace RhumbixAPIConnector.ViewModels
                 MessageBox.Show("Export complete!", "Rhumbix Export", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
     }
 }

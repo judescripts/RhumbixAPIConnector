@@ -253,6 +253,7 @@ namespace RhumbixAPIConnector.ViewModels
                     FileSystemsHelpers.WriteToFile($"Number of absence history records imported: {numOfRows}");
                     break;
             }
+
         }
         private static string FetchApiToken(string pin)
         {
